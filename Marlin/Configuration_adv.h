@@ -371,13 +371,13 @@
  * The fan turns on automatically whenever any driver is enabled and turns
  * off (or reduces to idle speed) shortly after drivers are turned off.
  */
-//#define USE_CONTROLLER_FAN
+//#define USE_CONTROLLER_FAN  //ppd //pd06 my SPEED_ACTIVE decreased to 130
 #if ENABLED(USE_CONTROLLER_FAN)
-  //#define CONTROLLER_FAN_PIN -1        // Set a custom pin for the controller fan
+  #define CONTROLLER_FAN_PIN   myCONTROLLER_FAN_PIN //ppd Set a custom pin for the controller fan
   //#define CONTROLLER_FAN_USE_Z_ONLY    // With this option only the Z axis is considered
   //#define CONTROLLER_FAN_IGNORE_Z      // Ignore Z stepper. Useful when stepper timeout is disabled.
   #define CONTROLLERFAN_SPEED_MIN      0 // (0-255) Minimum speed. (If set below this value the fan is turned off.)
-  #define CONTROLLERFAN_SPEED_ACTIVE 255 // (0-255) Active speed, used when any motor is enabled
+  #define CONTROLLERFAN_SPEED_ACTIVE 130 //ppd from 255 -  (0-255) Active speed, used when any motor is enabled
   #define CONTROLLERFAN_SPEED_IDLE     0 // (0-255) Idle speed, used when motors are disabled
   #define CONTROLLERFAN_IDLE_TIME     60 // (seconds) Extra time to keep the fan running after disabling motors
   //#define CONTROLLER_FAN_EDITABLE      // Enable M710 configurable settings
@@ -450,14 +450,33 @@
  * Multiple extruders can be assigned to the same pin in which case
  * the fan will turn on when any selected extruder is above the threshold.
  */
-#define E0_AUTO_FAN_PIN -1
-#define E1_AUTO_FAN_PIN -1
-#define E2_AUTO_FAN_PIN -1
-#define E3_AUTO_FAN_PIN -1
-#define E4_AUTO_FAN_PIN -1
-#define E5_AUTO_FAN_PIN -1
-#define E6_AUTO_FAN_PIN -1
-#define E7_AUTO_FAN_PIN -1
+//ppd my changes for configuration.h setting of pins
+//#define E0_AUTO_FAN_PIN  myE0_AUTO_FAN_PIN    //ppd0 comment out until config.h updated
+#if HOTENDS > 1
+    #define E1_AUTO_FAN_PIN myE1_AUTO_FAN_PIN
+#else
+    #define E1_AUTO_FAN_PIN -1
+#endif
+#if HOTENDS > 2
+    #define E2_AUTO_FAN_PIN myE2_AUTO_FAN_PIN
+#else
+    #define E2_AUTO_FAN_PIN -1
+#endif
+#if HOTENDS > 3
+    #define E3_AUTO_FAN_PIN myE3_AUTO_FAN_PIN
+#else
+    #define E3_AUTO_FAN_PIN -1
+#endif
+#if HOTENDS > 4
+    #define E4_AUTO_FAN_PIN myE4_AUTO_FAN_PIN
+#else
+    #define E4_AUTO_FAN_PIN -1
+#endif
+#if HOTENDS > 5
+    #define E5_AUTO_FAN_PIN myE5_AUTO_FAN_PIN
+#else
+    #define E5_AUTO_FAN_PIN -1
+#endif
 #define CHAMBER_AUTO_FAN_PIN -1
 
 #define EXTRUDER_AUTO_FAN_TEMPERATURE 50
@@ -1081,7 +1100,7 @@
 //#define LCD_TIMEOUT_TO_STATUS 15000
 
 // Add an 'M73' G-code to set the current percentage
-//#define LCD_SET_PROGRESS_MANUALLY
+#define LCD_SET_PROGRESS_MANUALLY     //ppd does uncommenting DISable or enable M73 error on LCD screen
 
 // Show the E position (filament used) during printing
 //#define LCD_SHOW_E_TOTAL
@@ -1660,7 +1679,7 @@
  * Repeatedly attempt G29 leveling until it succeeds.
  * Stop after G29_MAX_RETRIES attempts.
  */
-//#define G29_RETRY_AND_RECOVER
+#define G29_RETRY_AND_RECOVER       //ppd enable this for bettter leveliung
 #if ENABLED(G29_RETRY_AND_RECOVER)
   #define G29_MAX_RETRIES 3
   #define G29_HALT_ON_FAILURE
@@ -2531,7 +2550,7 @@
    * Enable M122 debugging command for TMC stepper drivers.
    * M122 S0/1 will enable continous reporting.
    */
-  //#define TMC_DEBUG
+  #define TMC_DEBUG		//ppd enable
 
   /**
    * You can set your own advanced settings by filling in predefined functions.
