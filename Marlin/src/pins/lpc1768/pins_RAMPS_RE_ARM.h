@@ -1,3 +1,5 @@
+//modified by ppd 8/22/2020
+//>>> only question is this line:  #if HAS_MULTI_HOTEND	//ppd06  mine is: #if HOTENDS > 1
 /**
  * Marlin 3D Printer Firmware
  * Copyright (c) 2020 MarlinFirmware [https://github.com/MarlinFirmware/Marlin]
@@ -20,8 +22,19 @@
  *
  */
 #pragma once
+/** 
+//ppd 6/16/2019
+Defined RAMPS pins in Dxx format that can be available for other uses like fans, stpeer motors, etc.
+1. x,y,z MAX_ENDSTOP
+2. AUX_1
+3. AUX_2
+4. AUX_3 (if an LCD is not used
+    AUX_4 (if an LCD is not used
+5. SERVORS (PWM capable for up to 4 fans
+6.  J3 (RE-ARM)
+7.  J5 (RE-ARM)
+8. J12 (RE-ARM)
 
-/**
  * Re-ARM with RAMPS v1.4 pin assignments
  *
  * Applies to the following boards:
@@ -36,6 +49,64 @@
 
 // Numbers in parentheses () are the corresponding mega2560 pin numbers
 
+//
+//RAMPS pins for RE-ARM J3 J5, and J12 connectors (*not defined elsewhere)
+//
+// J3 - LCD / SD / SPI
+#ifndef RAMPS_D16_PIN
+     #define RAMPS_D16_PIN   P0_16
+#endif
+#ifndef RAMPS_D35_PIN
+     #define RAMPS_D35_PIN   P2_11
+#endif
+#ifndef RAMPS_D33_PIN
+     #define RAMPS_D33_PIN   P3_25
+#endif
+#ifndef RAMPS_D31_PIN
+     #define RAMPS_D31_PIN   P3_26
+#endif
+
+                                          
+
+// J5 - AUX4
+#ifndef RAMPS_D37_PIN
+     #define RAMPS_D37_PIN  P1_30
+#endif
+#ifndef RAMPS_D41_PIN
+     #define RAMPS_D41_PIN   P1_22
+#endif
+
+// J12 - ETHERNET / GPIO
+#ifndef RAMPS_D70_PIN
+     #define RAMPS_D70_PIN   P1_16
+#endif
+#ifndef RAMPS_D71_PIN
+     #define RAMPS_D71_PIN   P1_17
+#endif
+#ifndef RAMPS_D72_PIN
+     #define RAMPS_D72_PIN   P1_15
+#endif
+#ifndef RAMPS_D73_PIN
+     #define RAMPS_D73_PIN   P1_14
+#endif
+#ifndef RAMPS_D74_PIN
+     #define RAMPS_D74_PIN   P1_09
+#endif
+#ifndef RAMPS_D75_PIN
+     #define RAMPS_D75_PIN   P1_10
+#endif
+#ifndef RAMPS_D76_PIN
+     #define RAMPS_D76_PIN   P1_08
+#endif
+#ifndef RAMPS_D77_PIN
+    #define  RAMPS_D77_PIN   P1_04
+#endif
+#ifndef RAMPS_D78_PIN
+     #define RAMPS_D78_PIN   P1_00
+#endif
+#ifndef RAMPS_D79_PIN
+     #define RAMPS_D79_PIN   P1_01
+#endif
 #ifndef MCU_LPC1768
   #error "Oops! Make sure you have the LPC1768 environment selected in your IDE."
 #endif
@@ -60,6 +131,119 @@
 #define Z_MIN_PIN                          P1_29  // (18) 10k pullup to 3.3V, 1K series
 #define Z_MAX_PIN                          P1_28  // (19) 10k pullup to 3.3V, 1K series
 #define ONBOARD_ENDSTOPPULLUPS                    // Board has built-in pullups
+
+//----------definitions for Available pins --------------------------
+//
+// Redefining MAX endstop pins pins for additional extruder motors.
+//
+/** //ppd
+If MAX endstop pins are not used, they are available for motor control
+*/
+#ifndef USE_XMAX_PLUG
+    #define RAMPS_D2_PIN 	P1_25   //X_MAX_PIN
+#endif
+#ifndef USE_YMAX_PLUG
+    #define RAMPS_D15_PIN	P1_27   //Y_MAX_PIN
+#endif
+#ifndef USE_ZMAX_PLUG
+    #define RAMPS_D19_PIN  	P1_28   //Z_MAX_PIN
+#endif
+
+//
+// Redefining AUX pins for additional extruder motors.
+//
+/*
+AUX-1 Re-ARM - //ppd just assigning the naming convention here for future use
+D0	P0_03       //RXD_0 so may not be useable for other
+D1	P0_02       //TXD_0 so may not be useable for other
+D57	P0_27
+D58	P0_28
+*/
+#ifndef RAMPS_D0_PIN
+  #define RAMPS_D0_PIN    P0_03
+#endif
+#ifndef RAMPS_D1_PIN
+  #define RAMPS_D1_PIN    P0_02
+#endif
+#ifndef RAMPS_D57_PIN
+  #define RAMPS_D57_PIN    P0_27
+#endif
+#ifndef RAMPS_D58_PIN
+  #define RAMPS_D58_PIN    P0_28
+#endif
+
+/*
+AUX-2 RE-ARM- //ppd just assigning the naming convention here for future use
+Only 2 pins avaiable from Re-ARM
+D59	P2_06
+D63	P0_26
+*/
+#ifndef RAMPS_D59_PIN
+  #define RAMPS_D59_PIN    P2_06
+#endif
+#ifndef RAMPS_D63_PIN
+  #define RAMPS_D63_PIN    P0_26
+#endif
+
+/*
+ AUX-3 If no LCD can use
+Outside row
+D49	P1_31
+D51	P0_18
+D53	P1_23
+Inside row
+D50      P0_17  //SPI-MISO so may not be useable for other
+D52     P0_15   //SPI-SCK so may not be useable for other
+*/
+#ifndef RAMPS_D49_PIN
+  #define RAMPS_D49_PIN    P1_31
+#endif
+#ifndef RAMPS_D50_PIN
+  #define RAMPS_D50_PIN    P0_17
+#endif
+#ifndef RAMPS_D51_PIN
+  #define RAMPS_D51_PIN    P0_18
+#endif
+#ifndef RAMPS_D52_PIN
+  #define RAMPS_D52_PIN    P0_15
+#endif
+#ifndef RAMPS_D53_PIN
+  #define RAMPS_D53_PIN    P1_23
+#endif
+
+
+/*
+ I2C Pins if I2C not used
+ D20	P0_00
+ D21	P0_01
+*/
+#ifndef RAMPS_D20_PIN 
+  #define RAMPS_D20_PIN     P0_00
+#endif
+#ifndef RAMPS_D21_PIN 
+  #define RAMPS_D21_PIN     P0_01
+#endif
+
+
+//E0 & E1 default motor pins
+#ifndef RAMPS_D24_PIN
+    #define RAMPS_D24_PIN      P0_04   // (24)
+#endif
+#ifndef RAMPS_D26_PIN
+    #define RAMPS_D26_PIN        P2_00   // (26)  fixed position pins
+#endif
+#ifndef RAMPS_D28_PIN
+    #define RAMPS_D28_PIN         P0_05   // (28)
+#endif
+#ifndef RAMPS_D30_PIN
+    #define RAMPS_D30_PIN         P4_29   // (30)
+#endif
+#ifndef RAMPS_D34_PIN
+    #define RAMPS_D34_PIN         P2_13   // (34)
+#endif
+#ifndef RAMPS_D36_PIN
+    #define RAMPS_D36_PIN        P2_08   // (36)  fixed position pins
+#endif
 
 //
 // Steppers
@@ -100,6 +284,48 @@
 #endif
 
 //
+//------------code for extruder motors 3 to 6 ----------------//ppd
+//
+//cannot use ALL RE-ARM AUX2 pins for motor expander-pins some are NC
+//try thiese pins on AUX1 and AUX2 
+//3rd extruder Motor 
+#if E_STEPPERS > 2
+    #define E2_STEP_PIN   myE2_STEP_PIN 
+    #define E2_DIR_PIN    myE2_DIR_PIN              
+    #define E2_ENABLE_PIN myE2_ENABLE_PIN
+    #ifndef E2_CS_PIN
+      #define E2_CS_PIN        -1 
+    #endif
+#endif
+//4th extruder Motor 
+#if E_STEPPERS > 3 
+    #define E3_STEP_PIN   myE3_STEP_PIN 
+    #define E3_DIR_PIN    myE3_DIR_PIN       
+    #define E3_ENABLE_PIN myE3_ENABLE_PIN
+    #ifndef E3_CS_PIN
+      #define E3_CS_PIN   -1
+    #endif    
+#endif
+//5th extruder Motor
+#if E_STEPPERS > 4 
+    #define E4_STEP_PIN   myE4_STEP_PIN
+    #define E4_DIR_PIN    myE4_DIR_PIN           
+    #define E4_ENABLE_PIN myE4_ENABLE_PIN
+    #ifndef E4_CS_PIN
+      #define E4_CS_PIN   -1
+    #endif    
+#endif
+//6th extruder Motor 
+#if E_STEPPERS > 5 
+    #define E5_STEP_PIN   myE5_STEP_PIN
+    #define E5_DIR_PIN    myE5_DIR_PIN             
+    #define E5_ENABLE_PIN myE5_ENABLE_PIN
+    #ifndef E5_CS_PIN
+      #define E5_CS_PIN   -1
+    #endif    
+#endif
+
+//  	
 // Software SPI pins for TMC2130 stepper drivers
 //
 #if ENABLED(TMC_USE_SW_SPI)
@@ -165,20 +391,70 @@
 // Temperature Sensors
 //  3.3V max when defined as an analog input
 //
-#define TEMP_0_PIN                      P0_23_A0  // A0 (T0) - (67) - TEMP_0_PIN
-#define TEMP_BED_PIN                    P0_24_A1  // A1 (T1) - (68) - TEMP_BED_PIN
-#define TEMP_1_PIN                      P0_25_A2  // A2 (T2) - (69) - TEMP_1_PIN
-#define TEMP_2_PIN                      P0_26_A3  // A3 - (63) - J5-3 & AUX-2
-#define TEMP_3_PIN                      P1_30_A4  // A4 - (37) - BUZZER_PIN
-//#define TEMP_4_PIN                    P1_31_A5  // A5 - (49) - SD_DETECT_PIN
-//#define ??                  P0_03_A6            // A6 - ( 0)  - RXD0 - J4-4 & AUX-1
-#define FILWIDTH_PIN                    P0_02_A7  // A7 - ( 1)  - TXD0 - J4-5 & AUX-1
+ /**
+Analog INPUT pins are designated as A# and run sequentially from 0 to 7 These pins
+Can also be didigtal pins D##
+*ASSIGNING ANALOG PINS EXCLUDES USE AS DIGITAL PINS 
+**Note that the 2nd sensor can be labelled REDUNDANT in config.h
+    to protect from heater runaway for multiple heating blocks.
+This code changes assign analog pins only if needed by HOTENDS to make sure there is no conflict
+
+*******Number of HOTENDS (nozzles) may be less than number of extruders  (motors)
+      so the pins here only need assigned for physical hotends.*******
+*/
+
+/**
+Analog INPUT pins are designated as A# and run sequentially from 0 to 7 These pins
+Can also be digital pins D##
+*/
+//ppd 05/20     Now required to be in P#_## format
+#define A0  P0_23_A0   // A0 (T0) - (67) - TEMP_0_PIN
+#define T0  P0_23_A0	//alternate label
+#define A1  P0_24_A1   // A1 (T1) - (68) - TEMP_BED_PIN
+#define T1  P0_24_A1    //was analog 1
+#define A2  P0_25_A2   // A2 (T2) - (69) - TEMP_1_PIN
+#define T2  P0_25_A2
+//RE-ARM available Thermistor pins as alalog input
+//format:A#_RAMPS_Dxx_PIN
+#define A3_63_PIN  P0_26_A3   //J5-3 & AUX-2
+#define A4_37_PIN  P1_30_A4   //BUZZER_PIN
+#define A5_49_PIN  P1_31_A5   //SD_DETECT_PIN
+#define A6_00_PIN  P0_03_A6   //RXD - J4-4 & AUX-1
+#define A7_01_PIN  P0_02_A7   //TXD - J4-5 & AUX-1
+
+//
+// Temperature Sensors
+//  3.3V max when defined as an analog input
+//
+
+ //ppd06 - 8/23/20 temporary define for bed sensor until config.h updated
+#define myTEMP_SENSOR_0_PIN A0
+#define myTEMP_SENSOR_BED_PIN A1 
+
+#define TEMP_0_PIN      myTEMP_SENSOR_0_PIN
+#define TEMP_BED_PIN    myTEMP_SENSOR_BED_PIN
+#if HOTENDS  > 1    
+    #define TEMP_1_PIN  myTEMP_SENSOR_1_PIN
+#endif
+#if HOTENDS  > 2
+    #define TEMP_2_PIN  myTEMP_SENSOR_2_PIN
+#endif
+#if HOTENDS  > 3
+    #define TEMP_3_PIN  myTEMP_SENSOR_3_PIN
+#endif
+#if HOTENDS  > 4
+    #define TEMP_4_PIN  myTEMP_SENSOR_4_PIN
+#endif
+#if HOTENDS  > 5
+    #define TEMP_5_PIN  myTEMP_SENSOR_5_PIN
+#endif
+#define FILWIDTH_PIN        A7 //( 1)  - TXD0 - J4-5 & AUX-1
 
 //
 // Augmentation for auto-assigning RAMPS plugs
 //
 #if NONE(IS_RAMPS_EEB, IS_RAMPS_EEF, IS_RAMPS_EFB, IS_RAMPS_EFF, IS_RAMPS_SF) && !PIN_EXISTS(MOSFET_D)
-  #if HAS_MULTI_HOTEND
+  #if HAS_MULTI_HOTEND || HOTENDS > 1     //ppd06  mine was only: #if HOTENDS > 1
     #if TEMP_SENSOR_BED
       #define IS_RAMPS_EEB
     #else
@@ -197,6 +473,19 @@
 #ifndef MOSFET_D_PIN
   #define MOSFET_D_PIN                     -1
 #endif
+//SERVO Pin Group D4, D5, D6, D11. Have PWM conrol for fans (don't know what else)
+#ifndef RAMPS_D4_PIN
+  #define RAMPS_D4_PIN     P1_18   //(4)
+#endif
+#ifndef RAMPS_D5_PIN
+  #define RAMPS_D5_PIN     P1_19   //(5)
+#endif
+#ifndef RAMPS_D6_PIN
+  #define RAMPS_D6_PIN     P1_21   // (6)
+#endif
+#ifndef RAMPS_D11_PIN
+  #define RAMPS_D11_PIN     P1_20   // (11)
+#endif  													  
 #ifndef RAMPS_D8_PIN
   #define RAMPS_D8_PIN                     P2_07  // (8)
 #endif
@@ -207,8 +496,11 @@
   #define RAMPS_D10_PIN                    P2_05  // (10)
 #endif
 
-#define HEATER_0_PIN               RAMPS_D10_PIN
 
+
+//
+// 2nd heater if board type requires  EEF, EEB          ppd
+// 
 #if ENABLED(IS_RAMPS_EFB)                         // Hotend, Fan, Bed
   #define HEATER_BED_PIN            RAMPS_D8_PIN
 #elif ENABLED(IS_RAMPS_EEF)                       // Hotend, Hotend, Fan
@@ -227,15 +519,55 @@
   #endif
 #endif
 
+//
+// Additional hotends heaters if multiple hotends and/or extruders set in config.h
+//
+/**
+The heaters may each have their own heater pin and MOSFET
+OR they can be paired i(in parallel) with other heater pins
+*******Number of HOTENDS (nozzles) may be less than number of extruders  (motors)
+      so the pins here only need assigned for physical hotends.*******
+*/
+// for just one or 1st extruder - override if user defines a pin in config
+//
+#if ENABLED(myHEATER_0_PIN)
+    #undef HEATER_0_PIN
+    #define HEATER_0_PIN     myHEATER_0_PIN
+#else
+    #define HEATER_0_PIN       RAMPS_D10_PIN
+#endif  //heater 0
+
+#if HOTENDS > 1               //2 heaters
+   #ifdef myHEATER_1_PIN     // override board type if user defines a pin in config
+        #undef HEATER_1_PIN
+        #define HEATER_1_PIN     myHEATER_1_PIN
+    #endif
+#endif
+#if HOTENDS > 2               //3 heaters
+        #define HEATER_2_PIN     myHEATER_2_PIN
+#endif
+#if HOTENDS > 3               //4 heaters
+        #define HEATER_3_PIN     myHEATER_3_PIN
+#endif
+#if HOTENDS > 4               //5 heaters
+        #define HEATER_4_PIN     myHEATER_4_PIN
+#endif
+#if HOTENDS > 5               //6 heaters
+        #define HEATER_5_PIN     myHEATER_5_PIN
+#endif
+  
+//
+// FAN_PIN is the parts cooling fan
+//  
 #ifndef FAN_PIN
-  #if EITHER(IS_RAMPS_EFB, IS_RAMPS_EFF)          // Hotend, Fan, Bed or Hotend, Fan, Fan
-    #define FAN_PIN                 RAMPS_D9_PIN
-  #elif EITHER(IS_RAMPS_EEF, IS_RAMPS_SF)         // Hotend, Hotend, Fan or Spindle, Fan
-    #define FAN_PIN                 RAMPS_D8_PIN
-  #elif ENABLED(IS_RAMPS_EEB)                     // Hotend, Hotend, Bed
-    #define FAN_PIN                        P1_18  // (4) IO pin. Buffer needed
-  #else                                           // Non-specific are "EFB" (i.e., "EFBF" or "EFBE")
-    #define FAN_PIN                 RAMPS_D9_PIN
+  #if EITHER(IS_RAMPS_EFB, IS_RAMPS_EFF)   // Hotend, Fan, Bed or Hotend, Fan, Fan
+    #define FAN_PIN       RAMPS_D6_PIN // (D9) //ppd  using E0_AUTO_FAN for RAMPS_D9_PIN is E3D stack (cold end) cooler
+  #elif EITHER(IS_RAMPS_EEF, IS_RAMPS_SF)   // Hotend, Hotend, Fan or Spindle, Fan
+    #define FAN_PIN        RAMPS_D8_PIN
+  #elif ENABLED(IS_RAMPS_EEB)                          // Hotend, Hotend, Bed
+    #define FAN_PIN        RAMPS_D6_PIN    //(D4) //ppd  using E1 heater on D9 
+  #else                                                // Non-specific are "EFB" (i.e., "EFBF" or "EFBE")
+    #define FAN_PIN        RAMPS_D9_PIN
   #endif
 #endif
 
