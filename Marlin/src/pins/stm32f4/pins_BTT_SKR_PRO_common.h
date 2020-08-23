@@ -1,4 +1,44 @@
 /**
+ * CUSTOMIZED VERSION for easier pin identification
+ * 
+ * Assigning most pins from configuration.h:
+ * Pin assignments are split between configuration.h and the MCU's pin__.h files. 
+ * I wanted to bve able to change many of the pin assignments fron configuration.h only.
+ * So I changed the hard coded pin assigments in pins.h to relative pins called my____PIN.  
+ * Then I moved the direct pin assignments to configuration.h.
+ * Example for my new 4th extruder STEP pin: 
+ * pins.h definition:          #define E3_STEP_PIN  myE3_STEP_PIN
+ * Configuration.h definition: #define myE3_STEP_PIN   EXT_1_4_PIN
+ * 
+ * Understandable names:
+ * Next I gave hard coded pin assignemnts in pins.h like PF7 (SKR_PRO) more understandable names.
+ * Pins can be multiply defined, essentially having several names for the same pin.
+ * Here many of the pins are defined to be identified more easily by location or function.
+ * Example by location: EXT_1_3_PIN	makes more sense than PF8 to locate the pin on Extensio-1 pin 3.
+ * Example by function: EMAX_X_PIN for PE15 to define extruder X maximum endstop.
+ * Redefines for I2C, UART, BLT, etc. are included.
+ * 
+ * Analog pins are defined: 
+ * Pins that can be digital out and ADC (analog in) are adressed differently for each. 
+ * Example: A21 defines the analog input function forExtension-1 pin 3
+ *          PF8 defines the digital out function
+ * Example of my notation:
+ *          EXT_1_3_A21_PIN defines Extension-1 pin 3 for analog input
+ *          EXT_1_3_PIN defines digital out for Extension-1 pin 3
+ * 
+ * RAMPS Servo pins are identified and pins tested:
+ * Example: SERVO0_PIN on BLT_2_PIN
+ * 
+ * 4th extruder is defined and pins tested:
+ * This includes a 4th temp sensor, heater, cooling stack fan, and step/dir/enable pins.
+ * Example: E3_STEP_PIN, FAN3_PIN, HEATER_3_PIN
+ * NOTE: the code in pins.h that errors out ona 4th extruder is commented out.
+ * 
+ * UART control pins for TMC steppers - both internal assigned, and additional pins
+ * Example: URT_1_PIN PC13 //X 
+ */
+
+/**
  * Marlin 3D Printer Firmware
  * Copyright (c) 2020 MarlinFirmware [https://github.com/MarlinFirmware/Marlin]
  *
@@ -24,6 +64,8 @@
 #ifndef TARGET_STM32F4
   #error "Oops! Select an STM32F4 board in 'Tools > Board.'"
 #endif
+//ppd Disable >3 hotends/steppers moved to new v1_1 and v1_2 headers 
+												 
 
 // Use one of these or SDCard-based Emulation will be used
 #if NO_EEPROM_SELECTED
@@ -37,11 +79,95 @@
   #define FLASH_EEPROM_LEVELING
 #endif
 
+/**     //ppd
+Better names for possible available pins to identify by location on the board. 
+Some may be used by added features such as WIFI, BLTounch sensor, etc.
+*/
+//EXTENSION-1
+#define EXT_1_3_PIN	    PF8     //PWM & ADC
+#define EXT_1_4_PIN	    PC9
+#define EXT_1_5_PIN	    PF10    //ADC
+#define EXT_1_6_PIN	    PF9     //PWM & ADC
+#define EXT_1_7_PIN	    PC5 
+#define EXT_1_8_PIN	    PC4
+#define EXT_1_9_PIN	    PG13
+#define EXT_1_10_PIN	PG11
+#define EXT_1_11_PIN	PD3
+#define EXT_1_12_PIN	PG14
+#define EXT_1_13_PIN	PF7     //PWM & ADC
+#define EXT_1_14_PIN	PC1
+
+//EXTENSION-2
+#define EXT_2_3_PIN	PE4
+#define EXT_2_4_PIN	PD0
+#define EXT_2_5_PIN	PE2
+#define EXT_2_6_PIN	PD2
+#define EXT_2_7_PIN	PE0
+#define EXT_2_8_PIN	PD5
+
+//BLTouch
+#define BLT_2_PIN   PA1 //PWM
+#define BLT_4_PIN   PA2 //PWM
+
+//UART(LOWER RIGHT)
+#define  URTZ_1_PIN	PD9
+#define  URTZ_2_PIN	PD8
+
+//I2C
+#define I2C_1_PIN   PB7
+#define I2C_2_PIN   PB6
+
+//UART (DRIVERS)
+
+//These are assigned to Software serial for UART control of steppers
+//x_SERIAL_TX_PIN and RX 
+#define URT_1_PIN	PC13 //X    these are all internal pins to the SKR PRO
+#define URT_3_PIN	PE3  //Y
+#define URT_5_PIN	PE1	//Z
+#define URT_7_PIN	PD4	//E0
+#define URT_9_PIN	PD1	//E1
+#define URT_11_PIN	PD6	//E2
+
+//THESE WERE ASSIGNED in Marlin 1.9.1 but not used in Marling 2.0
+//May be avaiable for additional steppers 
+#define URT_4_PIN	PE2 //EXTENSION-2 EXT_2_5_PIN
+#define URT_6_PIN	PE0 //EXTENSION-2 EXT_2_7_PIN
+#define URT_10_PIN	PD0 //EXTENSION-2 EXT_2_4_PIN
+#define URT_12_PIN	PD5 //EXTENSION-2 EXT_2_8_PIN
+
+
+/**
+WIFI - only 2 pins
+*/
+#define WIFI_1_PIN  PC6
+#define WIFI_8_PIN  PC7
+
+/**
+ADC pins (anlog to digital) such as thermistors
+*/
+#define EXT_1_3_A21_PIN   A21    //Extension-1 pin 3
+#define EXT_1_6_A22_PIN   A22     //Extension-1 pin 6
+#define EXT_1_5_A23_PIN   A23    //Extension-1 pin 5
+#define EXT_1_13_A20_PIN  A20  //Extension-1 pin 13
+#define BLT_2_A1_PIN  A1  //BLTouch Pin 2
+#define BLT_4_A2_PIN  A2  //BLTouch Pin 4
 //
 // Servos
 //
-#define SERVO0_PIN                          PA1
+/**
+RAMPS "SERVO" pins can do PWM (pulsed width modulation).
+This enables variable speed fans among other things.
+These defines include all the possible PWM pins on the SKR PRO. 
+Available pins will depend on what features you have enabled, like WIFI, BLTounch sensor, etc.
+*/
 
+#define SERVO0_PIN BLT_2_PIN     //BLTouch pin 2
+#define SERVO1_PIN BLT_4_PIN     //BLTouch pin 4
+#define SERVO2_PIN EXT_1_13_PIN    //Extension-1 pin 13
+#define SERVO3_PIN EXT_1_3_PIN     //Extension-1 pin 3
+#define SERVO4_PIN EXT_1_6_PIN     //Extension-1 pin 6
+#define SERVO5_PIN WIFI_1_PIN      //WIFI
+#define SERVO6_PIN WIFI_8_PIN      //WIFI
 //
 // Trinamic Stallguard pins
 //
@@ -156,6 +282,66 @@
   #define E2_CS_PIN                         PG12
 #endif
 
+/*This is for a 4th stepper motor
+extension boards for multiple steppers typically have only 1 enable pin for
+all the steppers. OR the enable pin can be grounded to permant on.
+Using the enable pin is optional. 
+CS pin is not used on stepper motor extension boards. 
+CS (Chip Select) is used for SPI stepper chip selection.
+So external stepper chips lke TMC2130 cannot use the SPI feature.
+*/
+/** //ppd06 disable all these until config.h updated
+#define E3_STEP_PIN     myE3_STEP_PIN
+#define E3_DIR_PIN      myE3_DIR_PIN
+#define E3_ENABLE_PIN   myE3_ENABLE_PIN   //EXTENSION-1, USae one enable for extension board's multiple steppers
+
+#define E4_STEP_PIN     myE4_STEP_PIN
+#define E4_DIR_PIN      myE4_DIR_PIN
+#define E4_ENABLE_PIN   myE4_ENABLE_PIN
+
+#define E5_STEP_PIN     myE5_STEP_PIN
+#define E5_DIR_PIN      myE5_DIR_PIN
+#define E5_ENABLE_PIN   myE5_ENABLE_PIN
+*/ //ppd06
+
+//
+// Temperature Sensors
+//
+#define TEMP_0_PIN         PF4  // T1 <-> E0
+#define TEMP_1_PIN         PF5  // T2 <-> E1
+#define TEMP_2_PIN         PF6  // T3 <-> E2
+#if EXTRUDERS  > 3
+  #define TEMP_3_PIN         myTEMP_SENSOR_3_PIN
+#endif
+#if EXTRUDERS  > 4
+  #define TEMP_4_PIN         myTEMP_SENSOR_4_PIN
+#endif
+#define TEMP_BED_PIN       PF3  // T0 <-> Bed
+
+//
+// Heaters / Fans
+//
+#define HEATER_0_PIN       PB1  // Heater0
+#define HEATER_1_PIN       PD14 // Heater1
+#define HEATER_2_PIN       PB0  // Heater2
+//ppd06 temporarily comments out until config.h updated
+//#define HEATER_3_PIN    myHEATER_3_PIN  //MUST use external MOSFET board to drive these heaters
+//#define HEATER_4_PIN    myHEATER_4_PIN
+//#define HEATER_5_PIN    myHEATER_5_PIN
+
+#define HEATER_BED_PIN     PD12 // Hotbed
+#define FAN_PIN            PC8  // Fan0
+#define FAN1_PIN           PE5  // Fan1
+#define FAN2_PIN           PE6  // Fan2
+//ppd06 temporarily comments out until config.h updated
+//#define FAN3_PIN        myE3_AUTO_FAN_PIN   
+//#define FAN4_PIN        myE4_AUTO_FAN_PIN   
+//#define FAN5_PIN        myE5_AUTO_FAN_PIN   
+//#define FAN6_PIN        myE6_AUTO_FAN_PIN	
+
+#ifndef E0_AUTO_FAN_PIN
+  #define E0_AUTO_FAN_PIN               FAN1_PIN
+#endif
 //
 // Software SPI pins for TMC2130 stepper drivers
 //
@@ -215,28 +401,6 @@
   #define TMC_BAUD_RATE 19200
 #endif
 
-//
-// Temperature Sensors
-//
-#define TEMP_0_PIN                          PF4   // T1 <-> E0
-#define TEMP_1_PIN                          PF5   // T2 <-> E1
-#define TEMP_2_PIN                          PF6   // T3 <-> E2
-#define TEMP_BED_PIN                        PF3   // T0 <-> Bed
-
-//
-// Heaters / Fans
-//
-#define HEATER_0_PIN                        PB1   // Heater0
-#define HEATER_1_PIN                        PD14  // Heater1
-#define HEATER_2_PIN                        PB0   // Heater1
-#define HEATER_BED_PIN                      PD12  // Hotbed
-#define FAN_PIN                             PC8   // Fan0
-#define FAN1_PIN                            PE5   // Fan1
-#define FAN2_PIN                            PE6
-
-#ifndef E0_AUTO_FAN_PIN
-  #define E0_AUTO_FAN_PIN               FAN1_PIN
-#endif
 
 //
 // Misc. Functions
