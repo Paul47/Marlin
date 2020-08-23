@@ -290,7 +290,7 @@ CS pin is not used on stepper motor extension boards.
 CS (Chip Select) is used for SPI stepper chip selection.
 So external stepper chips lke TMC2130 cannot use the SPI feature.
 */
-/** //ppd06 disable all these until config.h updated
+
 #define E3_STEP_PIN     myE3_STEP_PIN
 #define E3_DIR_PIN      myE3_DIR_PIN
 #define E3_ENABLE_PIN   myE3_ENABLE_PIN   //EXTENSION-1, USae one enable for extension board's multiple steppers
@@ -302,7 +302,6 @@ So external stepper chips lke TMC2130 cannot use the SPI feature.
 #define E5_STEP_PIN     myE5_STEP_PIN
 #define E5_DIR_PIN      myE5_DIR_PIN
 #define E5_ENABLE_PIN   myE5_ENABLE_PIN
-*/ //ppd06
 
 //
 // Temperature Sensors
@@ -324,20 +323,18 @@ So external stepper chips lke TMC2130 cannot use the SPI feature.
 #define HEATER_0_PIN       PB1  // Heater0
 #define HEATER_1_PIN       PD14 // Heater1
 #define HEATER_2_PIN       PB0  // Heater2
-//ppd06 temporarily comments out until config.h updated
-//#define HEATER_3_PIN    myHEATER_3_PIN  //MUST use external MOSFET board to drive these heaters
-//#define HEATER_4_PIN    myHEATER_4_PIN
-//#define HEATER_5_PIN    myHEATER_5_PIN
+#define HEATER_3_PIN    myHEATER_3_PIN  //MUST use external MOSFET board to drive these heaters
+#define HEATER_4_PIN    myHEATER_4_PIN
+#define HEATER_5_PIN    myHEATER_5_PIN
 
 #define HEATER_BED_PIN     PD12 // Hotbed
 #define FAN_PIN            PC8  // Fan0
 #define FAN1_PIN           PE5  // Fan1
 #define FAN2_PIN           PE6  // Fan2
-//ppd06 temporarily comments out until config.h updated
-//#define FAN3_PIN        myE3_AUTO_FAN_PIN   
-//#define FAN4_PIN        myE4_AUTO_FAN_PIN   
-//#define FAN5_PIN        myE5_AUTO_FAN_PIN   
-//#define FAN6_PIN        myE6_AUTO_FAN_PIN	
+#define FAN3_PIN        myE3_AUTO_FAN_PIN   
+#define FAN4_PIN        myE4_AUTO_FAN_PIN   
+#define FAN5_PIN        myE5_AUTO_FAN_PIN   
+#define FAN6_PIN        myE6_AUTO_FAN_PIN	
 
 #ifndef E0_AUTO_FAN_PIN
   #define E0_AUTO_FAN_PIN               FAN1_PIN

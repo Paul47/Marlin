@@ -22,16 +22,45 @@
 #pragma once
 
 /**
+
+ *****MY Settings****  //ppd  
+ * current version number in Version.h:
+ *      SHORT_BUILD_VERSION "2.0.5.3E" -> E for eeprom bug
+ * M302 to set the minimum extrusion temperature and/or turn
+ * cold extrusion prevention on and off. 
+ * M302 P0 to enable, M302 P1 to disable temp checking
+ * M302 Sxxx sets the min-tempeture
+ *
  * Configuration.h
- *
- * Basic settings such as:
- *
- * - Type of electronics
- * - Type of temperature sensor
- * - Printer geometry
- * - Endstop configuration
- * - LCD controller
- * - Extra features
+ 8/23/20 UPDATED TO MARLIN 2.0.6
+ 8/23/20 removed "myConfig_RE_ARM_RAMPSXB.h"
+ * RE_ARM config header file ERROR: NO HEATER_1,2,3 PINS DEFINED!!!!!!!!!!!!
+ * 6/12/20 Added RAMPSXB configurartion header "myConfig_RE_ARM_RAMPSXB.h"
+ *     Select at line 225
+ *6/8/20 in myConfigSKR_PRO  changed myE3_DIR_PIN  and myE3_STEP_PIN since no motor response on 12 (also no volatge on Ref resistor on stepper controler
+            undefined so free up dames on M43 report
+ * merged config.h COMMON differences in RE-ARM and SKR-PRO 
+ * change: INVERT_E0_DIR to false  5/17/2020
+ * - Auto  selects extruder/nozzle configuration for single/multi-nozzle @ Line 201 5/15/2020 
+ *- select stepper type buy name @ Line 162
+ * - extruders = 4    @ line 181           
+ * - DEFAULT_ACCELERATION Set back to Marlin defaults 5/3/2020.  3 from ANET 400, 1000, 400 
+ * -  DEFAULT_MAX_ACCELERATION Set back to Marlin defaults 5/3/2020 from ANET 1000, 1000, 100, 5000 
+ * - JUNCTION_DEVIATION versus "classic jerk". M00-M205 5/3/2020
+ * - S_CURVE_ACCELERATION makes better sharp corners 5/3/2020
+ * - NOT enabled yet: LIN_ADVANCE  allows faster speeds retaining quality (not for TMC2208) 5/3/2020
+ * - AUTO_BED_LEVELING_BILINEAR  //enabled 1/3/19 from linear
+ *        EXTRAPOLATE_BEYOND_GRID
+ * - EEPROM_SETTINGS // Enable for M500 and M501 commands
+ * - disabled HOST_KEEPALIVE_FEATURE
+* -  PSU control enabled
+* - Z_SAFE_HOMING
+
+****Configuration_adv.h*****
+* - enabled M122 reporting with #define TMC_DEBUG see config_adv.h 5/15/20
+* - G29_RETRY_AND_RECOVER      
+* - ENABLED: M43 @ line 3163- display pin status, toggle pins, watch pins, watch endstops & toggle LED, test servo probe
+                config_adv.h //#define PINS_DEBUGGING     
  *
  * Advanced settings can be found in Configuration_adv.h
  *
@@ -104,7 +133,7 @@
  *
  * :[-1, 0, 1, 2, 3, 4, 5, 6, 7]
  */
-#define SERIAL_PORT -1
+#define SERIAL_PORT -1  //ppd for re-aarm and skr-pro
 
 /**
  * Select a secondary serial port on the board to use for communication with the host.
@@ -126,6 +155,8 @@
 // Enable the Bluetooth serial interface on AT90USB devices
 //#define BLUETOOTH
 
+// Generally expected filament diameter (1.75, 2.85, 3.0, ...). Used for Volumetric, Filament Width Sensor, etc.
+#define DEFAULT_NOMINAL_FILAMENT_DIA 1.75 //ppd   
 // Choose the name from boards.h that matches your setup
 #ifndef MOTHERBOARD
   //#define MOTHERBOARD BOARD_RAMPS_14_RE_ARM_EFB  //<<<<<<<<<<<<<<<<<<
@@ -140,17 +171,47 @@
 // Choose your own or use a service like https://www.uuidgenerator.net/version4
 //#define MACHINE_UUID "00000000-0000-0000-0000-000000000000"
 
+
+//
+//Stepper type  //ppd
+//
+//ppd added if for driver selection. select at top under motherboard
+//#define using_TMC2208     //ppd
+#define using_DRV_8825
+//#define using_TMC2100
+//#define using_TMC2209
+
 // @section extruder
 
 // This defines the number of extruders
-// :[0, 1, 2, 3, 4, 5, 6, 7, 8]
-#define EXTRUDERS 1
+// :[1, 2, 3, 4, 5, 6, 7, 8]
+#define EXTRUDERS 4           //ppd
+#define NUM_VIRTUAL_HOTENDS   4   //ppd
+//NVH set to number of heaters/thermistors. 
+//Example: May have 4 extruders but only 3 heaters/thermisotrs
+//SINGLENOZZLE = NVH of 1
 
-// Generally expected filament diameter (1.75, 2.85, 3.0, ...). Used for Volumetric, Filament Width Sensor, etc.
-#define DEFAULT_NOMINAL_FILAMENT_DIA 1.75
+//
+// @section  hotends
+//
+/**
+HOTENDS      - Number of hotends, whether connected or separate
+For multiple extruders this defines the number of physical HOTENDS. 
+The number of hotends may be less than the number of stepper motors
+For Cyclops, Diamond Hotend,  or any "multi-extruder" that shares a single nozzle HOTENDS=1
+NOTE heaters are limited to the number of HOTENDS if hotends < extruders
+NOTE temp sensors require being matched to the number of HOTENDS if hotends < extruders
+*/ 
 
-// For Cyclops or any "multi-extruder" that shares a single nozzle.
-//#define SINGLENOZZLE
+#ifdef NUM_VIRTUAL_HOTENDS
+  #undef HOTENDS
+  #define HOTENDS    NUM_VIRTUAL_HOTENDS
+#endif
+
+// For Cyclops, Diamond Hotend, or any "multi-extruder" that shares a single nozzle.
+#if EXTRUDERS > 1 && NUM_VIRTUAL_HOTENDS == 1
+  #define SINGLENOZZLE
+#endif
 
 // Save and restore temperature and fan speed on tool-change.
 // Set standby for the unselected tool with M104/106/109 T...
@@ -159,7 +220,18 @@
   //#define SINGLENOZZLE_STANDBY_FAN
 #endif
 
-/**
+//*********************custom pin assignments start ***************                                                                      
+
+// Choose the name from boards.h that matches your setup
+#if MOTHERBOARD  == BOARD_RAMPS_14_RE_ARM_EFB
+  #include "myConfiguration_RE_ARM.h"
+#elif MOTHERBOARD == BOARD_BTT_SKR_PRO_V1_1
+  #include "myConfiguration_BTT_SKR_PRO_V1_1.h"
+#endif
+
+
+/*********************custom pin assignments end ***************
+
  * Průša MK2 Single Nozzle Multi-Material Multiplexer, and variants.
  *
  * This device allows one stepper driver on a control board to drive
@@ -169,6 +241,7 @@
  * This option only allows the multiplexer to switch on tool-change.
  * Additional options to configure custom E moves are pending.
  */
+
 //#define MK2_MULTIPLEXER
 #if ENABLED(MK2_MULTIPLEXER)
   // Override the default DIO selector pins here, if needed.
@@ -418,16 +491,45 @@
  *   998 : Dummy Table that ALWAYS reads 25°C or the temperature defined below.
  *   999 : Dummy Table that ALWAYS reads 100°C or the temperature defined below.
  */
-#define TEMP_SENSOR_0 1
-#define TEMP_SENSOR_1 0
-#define TEMP_SENSOR_2 0
-#define TEMP_SENSOR_3 0
-#define TEMP_SENSOR_4 0
-#define TEMP_SENSOR_5 0
-#define TEMP_SENSOR_6 0
-#define TEMP_SENSOR_7 0
-#define TEMP_SENSOR_BED 0
-#define TEMP_SENSOR_PROBE 0
+/**
+
+*******Number of HOTENDS (nozzles) may be less than number of extruders  (motors)
+       but a sensor type here must be defined for each EXTRUDER even if ia thermistor
+       is not physicallyh present*******
+       It would be better to use HOTENDS here rather then EXTRUDERS but HOTENDS value is not avaibale here!
+UNUSED SENSORS MUST BE DEFINED AS NOT_USED TO AVOID THIS ERROR:
+#error "TEMP_SENSOR_X shouldn't be set with only X HOTENDS."
+*/
+#define mySENSOR_TYPE   5	//MUST BE DEFINED 
+#define NOT_USED    0
+#define TEMP_SENSOR_0   mySENSOR_TYPE    	   
+#if HOTENDS > 1                                             
+	#define TEMP_SENSOR_1   mySENSOR_TYPE
+#else
+	#define TEMP_SENSOR_1 NOT_USED
+#endif	
+#if HOTENDS > 2                                             
+	#define TEMP_SENSOR_2   mySENSOR_TYPE
+#else
+	#define TEMP_SENSOR_2 NOT_USED
+#endif	
+#if HOTENDS > 3                                             
+	#define TEMP_SENSOR_3   mySENSOR_TYPE
+#else
+	#define TEMP_SENSOR_3 NOT_USED
+#endif	
+#if HOTENDS > 4                                             
+	#define TEMP_SENSOR_4   mySENSOR_TYPE
+#else
+	#define TEMP_SENSOR_4 NOT_USED
+#endif	
+#if HOTENDS > 5                                             
+	#define TEMP_SENSOR_5  mySENSOR_TYPE
+#else
+	#define TEMP_SENSOR_5 NOT_USED
+#endif	
+
+#define TEMP_SENSOR_BED 5                          
 #define TEMP_SENSOR_CHAMBER 0
 
 // Dummy thermistor constant temperature readings, for use with 998 and 999
@@ -569,12 +671,12 @@
 /**
  * Prevent extrusion if the temperature is below EXTRUDE_MINTEMP.
  * Add M302 to set the minimum extrusion temperature and/or turn
- * cold extrusion prevention on and off.
+ * cold extrusion prevention on and off. P0 to enable, P1 to disable temp checking
  *
  * *** IT IS HIGHLY RECOMMENDED TO LEAVE THIS OPTION ENABLED! ***
  */
 #define PREVENT_COLD_EXTRUSION
-#define EXTRUDE_MINTEMP 170
+#define EXTRUDE_MINTEMP 160	//for TESTING  set to room temp or below default: 160   
 
 /**
  * Prevent a single extrusion longer than EXTRUDE_MAXLENGTH.
@@ -662,13 +764,13 @@
 #endif
 
 // Mechanical endstop with COM to ground and NC to Signal uses "false" here (most common setup).
-#define X_MIN_ENDSTOP_INVERTING false // Set to true to invert the logic of the endstop.
-#define Y_MIN_ENDSTOP_INVERTING false // Set to true to invert the logic of the endstop.
-#define Z_MIN_ENDSTOP_INVERTING false // Set to true to invert the logic of the endstop.
-#define X_MAX_ENDSTOP_INVERTING false // Set to true to invert the logic of the endstop.
-#define Y_MAX_ENDSTOP_INVERTING false // Set to true to invert the logic of the endstop.
-#define Z_MAX_ENDSTOP_INVERTING false // Set to true to invert the logic of the endstop.
-#define Z_MIN_PROBE_ENDSTOP_INVERTING false // Set to true to invert the logic of the probe.
+#define X_MIN_ENDSTOP_INVERTING true // set to true to invert the logic of the endstop.   //ppd
+#define Y_MIN_ENDSTOP_INVERTING true // set to true to invert the logic of the endstop.
+#define Z_MIN_ENDSTOP_INVERTING true // set to true to invert the logic of the endstop.
+#define X_MAX_ENDSTOP_INVERTING false // set to true to invert the logic of the endstop.
+#define Y_MAX_ENDSTOP_INVERTING false // set to true to invert the logic of the endstop.
+#define Z_MAX_ENDSTOP_INVERTING false // set to true to invert the logic of the endstop.
+#define Z_MIN_PROBE_ENDSTOP_INVERTING true // set to true to invert the logic of the probe.
 
 /**
  * Stepper Drivers
@@ -686,22 +788,54 @@
  *          TMC5130, TMC5130_STANDALONE, TMC5160, TMC5160_STANDALONE
  * :['A4988', 'A5984', 'DRV8825', 'LV8729', 'L6470', 'L6474', 'POWERSTEP01', 'TB6560', 'TB6600', 'TMC2100', 'TMC2130', 'TMC2130_STANDALONE', 'TMC2160', 'TMC2160_STANDALONE', 'TMC2208', 'TMC2208_STANDALONE', 'TMC2209', 'TMC2209_STANDALONE', 'TMC26X', 'TMC26X_STANDALONE', 'TMC2660', 'TMC2660_STANDALONE', 'TMC5130', 'TMC5130_STANDALONE', 'TMC5160', 'TMC5160_STANDALONE']
  */
-//#define X_DRIVER_TYPE  A4988
-//#define Y_DRIVER_TYPE  A4988
-//#define Z_DRIVER_TYPE  A4988
-//#define X2_DRIVER_TYPE A4988
-//#define Y2_DRIVER_TYPE A4988
-//#define Z2_DRIVER_TYPE A4988
-//#define Z3_DRIVER_TYPE A4988
-//#define Z4_DRIVER_TYPE A4988
-//#define E0_DRIVER_TYPE A4988
-//#define E1_DRIVER_TYPE A4988
-//#define E2_DRIVER_TYPE A4988
-//#define E3_DRIVER_TYPE A4988
-//#define E4_DRIVER_TYPE A4988
-//#define E5_DRIVER_TYPE A4988
-//#define E6_DRIVER_TYPE A4988
-//#define E7_DRIVER_TYPE A4988
+//ppd added if for driver selection. select at top under motherboard
+ #ifdef using_TMC2208
+	#define X_DRIVER_TYPE  TMC2208_STANDALONE
+	#define Y_DRIVER_TYPE  TMC2208_STANDALONE
+	#define Z_DRIVER_TYPE  TMC2208_STANDALONE
+
+ 	#define E0_DRIVER_TYPE TMC2208_STANDALONE
+	#define E1_DRIVER_TYPE TMC2208_STANDALONE
+	#define E2_DRIVER_TYPE TMC2208_STANDALONE
+	#define E3_DRIVER_TYPE TMC2208_STANDALONE
+	//#define E4_DRIVER_TYPE TMC2208_STANDALONE
+#endif
+ 
+#ifdef using_TMC2209		//ppd
+	#define X_DRIVER_TYPE  TMC2209
+	#define Y_DRIVER_TYPE  TMC2209
+	#define Z_DRIVER_TYPE  TMC2209
+
+ 	#define E0_DRIVER_TYPE TMC2209
+	#define E1_DRIVER_TYPE TMC2209
+	#define E2_DRIVER_TYPE TMC2209
+	#define E3_DRIVER_TYPE TMC2209
+	//#define E4_DRIVER_TYPE TMC2209
+#endif
+
+#ifdef using_TMC2100	
+	#define X_DRIVER_TYPE  TMC2100
+	#define Y_DRIVER_TYPE  TMC2100
+	#define Z_DRIVER_TYPE  TMC2100
+                              
+	#define E0_DRIVER_TYPE TMC2100
+	#define E1_DRIVER_TYPE TMC2100
+	#define E2_DRIVER_TYPE TMC2100
+	#define E3_DRIVER_TYPE TMC2100
+	//#define E4_DRIVER_TYPE TMC2100
+ #endif
+//************************************************************
+#ifdef using_DRV8825			//ppd
+	#define X_DRIVER_TYPE  DRV8825
+	#define Y_DRIVER_TYPE  DRV8825
+	#define Z_DRIVER_TYPE  DRV8825
+
+	#define E0_DRIVER_TYPE DRV8825
+	#define E1_DRIVER_TYPE DRV8825
+	#define E2_DRIVER_TYPE DRV8825
+	#define E3_DRIVER_TYPE DRV8825
+	//#define E4_DRIVER_TYPE DRV8825
+#endif  
 
 // Enable this feature if all enabled endstop pins are interrupt-capable.
 // This will remove the need to poll the interrupt pins, saving many CPU cycles.
@@ -749,14 +883,14 @@
  * Override with M92
  *                                      X, Y, Z, E0 [, E1[, E2...]]
  */
-#define DEFAULT_AXIS_STEPS_PER_UNIT   { 80, 80, 4000, 500 }
+#define DEFAULT_AXIS_STEPS_PER_UNIT   {100,  100, 400, 95}  //ppd   
 
 /**
  * Default Max Feed Rate (mm/s)
  * Override with M203
  *                                      X, Y, Z, E0 [, E1[, E2...]]
  */
-#define DEFAULT_MAX_FEEDRATE          { 300, 300, 5, 25 }
+#define DEFAULT_MAX_FEEDRATE          {400, 400, 8, 50}	//from ANET //ppd
 
 //#define LIMITED_MAX_FR_EDITING        // Limit edit via M203 or LCD to DEFAULT_MAX_FEEDRATE * 2
 #if ENABLED(LIMITED_MAX_FR_EDITING)
@@ -833,7 +967,7 @@
  *
  * See https://github.com/synthetos/TinyG/wiki/Jerk-Controlled-Motion-Explained
  */
-//#define S_CURVE_ACCELERATION
+//#define S_CURVE_ACCELERATION	//ppd test to see if enabled works better
 
 //===========================================================================
 //============================= Z Probe Options =============================
@@ -891,7 +1025,7 @@
  * A Fix-Mounted Probe either doesn't deploy or needs manual deployment.
  *   (e.g., an inductive probe or a nozzle-based probe-switch.)
  */
-//#define FIX_MOUNTED_PROBE
+#define FIX_MOUNTED_PROBE //ppd
 
 /**
  * Use the nozzle as the probe, as with a conductive
@@ -985,11 +1119,14 @@
  *
  * Specify a Probe position as { X, Y, Z }
  */
-#define NOZZLE_TO_PROBE_OFFSET { 10, 10, 0 }
+// X offset: -left  +right  [of the nozzle]                                             
+//Y offset: -front +behind [the nozzle]                                                                  
+// Z offset: -below +above  [the nozzle                                                                                        
+#define NOZZLE_TO_PROBE_OFFSET { -55, 0, 0 }    //ppd new formast, all in one
 
 // Most probes should stay away from the edges of the bed, but
 // with NOZZLE_AS_PROBE this can be negative for a wider probing area.
-#define PROBING_MARGIN 10
+#define PROBING_MARGIN 0    //ppd
 
 // X and Y axis travel speed (mm/m) between probes
 #define XY_PROBE_SPEED 8000
@@ -1085,14 +1222,14 @@
 // @section machine
 
 // Invert the stepper direction. Change (or reverse the motor connector) if an axis goes the wrong way.
-#define INVERT_X_DIR false
+#define INVERT_X_DIR true  //ppd
 #define INVERT_Y_DIR true
 #define INVERT_Z_DIR false
 
 // @section extruder
 
 // For direct drive extruder v9 set to true, for geared extruder set to false.
-#define INVERT_E0_DIR false
+#define INVERT_E0_DIR false	//ppd
 #define INVERT_E1_DIR false
 #define INVERT_E2_DIR false
 #define INVERT_E3_DIR false
@@ -1121,16 +1258,17 @@
 // @section machine
 
 // The size of the print bed
-#define X_BED_SIZE 200
+#define X_BED_SIZE 220 //ppd measured glass
 #define Y_BED_SIZE 200
 
 // Travel limits (mm) after homing, corresponding to endstop positions.
-#define X_MIN_POS 0
-#define Y_MIN_POS 0
-#define Z_MIN_POS 0
+// OVERIDDEN BY M206 command                                
+#define X_MIN_POS  -10
+#define Y_MIN_POS  -20
+#define Z_MIN_POS   0
 #define X_MAX_POS X_BED_SIZE
 #define Y_MAX_POS Y_BED_SIZE
-#define Z_MAX_POS 200
+#define Z_MAX_POS     240
 
 /**
  * Software Endstops
@@ -1232,7 +1370,7 @@
  */
 //#define AUTO_BED_LEVELING_3POINT
 //#define AUTO_BED_LEVELING_LINEAR
-//#define AUTO_BED_LEVELING_BILINEAR
+#define AUTO_BED_LEVELING_BILINEAR  //ppd enabled from linear
 //#define AUTO_BED_LEVELING_UBL
 //#define MESH_BED_LEVELING
 
@@ -1264,7 +1402,7 @@
   /**
    * Enable the G26 Mesh Validation Pattern tool.
    */
-  //#define G26_MESH_VALIDATION
+  #define G26_MESH_VALIDATION       //ppd enabled
   #if ENABLED(G26_MESH_VALIDATION)
     #define MESH_TEST_NOZZLE_SIZE    0.4  // (mm) Diameter of primary nozzle.
     #define MESH_TEST_LAYER_HEIGHT   0.2  // (mm) Default layer height for the G26 Mesh Validation Tool.
@@ -1289,7 +1427,7 @@
 
     // Beyond the probed grid, continue the implied tilt?
     // Default is to maintain the height of the nearest edge.
-    //#define EXTRAPOLATE_BEYOND_GRID
+    #define EXTRAPOLATE_BEYOND_GRID	//ppd enabled
 
     //
     // Experimental Subdivision of the grid by Catmull-Rom method.
@@ -1383,7 +1521,7 @@
 // - Move the Z probe (or nozzle) to a defined XY point before Z Homing.
 // - Prevent Z homing when the Z probe is outside bed area.
 //
-//#define Z_SAFE_HOMING
+#define Z_SAFE_HOMING		//ppd enabled
 
 #if ENABLED(Z_SAFE_HOMING)
   #define Z_SAFE_HOMING_X_POINT X_CENTER  // X point for Z homing
@@ -1469,7 +1607,7 @@
  *   M501 - Read settings from EEPROM. (i.e., Throw away unsaved changes)
  *   M502 - Revert settings to "factory" defaults. (Follow with M500 to init the EEPROM.)
  */
-//#define EEPROM_SETTINGS     // Persistent storage with M500 and M501
+#define EEPROM_SETTINGS     // Persistent storage with M500 and M501    //ppd enabled
 //#define DISABLE_M503        // Saves ~2700 bytes of PROGMEM. Disable for release!
 #define EEPROM_CHITCHAT       // Give feedback on EEPROM commands. Disable to save PROGMEM.
 #define EEPROM_BOOT_SILENT    // Keep M503 quiet and only give errors during first load
@@ -1483,7 +1621,7 @@
 // When enabled Marlin will send a busy status message to the host
 // every couple of seconds when it can't accept commands.
 //
-#define HOST_KEEPALIVE_FEATURE        // Disable this if your host doesn't like keepalive messages
+//#define HOST_KEEPALIVE_FEATURE        //ppd Disable this if your host doesn't like keepalive messages
 #define DEFAULT_KEEPALIVE_INTERVAL 2  // Number of seconds between "busy" messages. Set with M113.
 #define BUSY_WHILE_HEATING            // Some hosts require "busy" messages even during heating
 
@@ -1943,7 +2081,7 @@
 // RepRapDiscount FULL GRAPHIC Smart Controller
 // https://reprap.org/wiki/RepRapDiscount_Full_Graphic_Smart_Controller
 //
-//#define REPRAP_DISCOUNT_FULL_GRAPHIC_SMART_CONTROLLER
+#define REPRAP_DISCOUNT_FULL_GRAPHIC_SMART_CONTROLLER //ppd
 
 //
 // ReprapWorld Graphical LCD

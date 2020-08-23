@@ -371,7 +371,7 @@
  * The fan turns on automatically whenever any driver is enabled and turns
  * off (or reduces to idle speed) shortly after drivers are turned off.
  */
-//#define USE_CONTROLLER_FAN  //ppd //pd06 my SPEED_ACTIVE decreased to 130
+#define USE_CONTROLLER_FAN  //ppd 
 #if ENABLED(USE_CONTROLLER_FAN)
   #define CONTROLLER_FAN_PIN   myCONTROLLER_FAN_PIN //ppd Set a custom pin for the controller fan
   //#define CONTROLLER_FAN_USE_Z_ONLY    // With this option only the Z axis is considered
@@ -451,7 +451,7 @@
  * the fan will turn on when any selected extruder is above the threshold.
  */
 //ppd my changes for configuration.h setting of pins
-//#define E0_AUTO_FAN_PIN  myE0_AUTO_FAN_PIN    //ppd0 comment out until config.h updated
+#define E0_AUTO_FAN_PIN  myE0_AUTO_FAN_PIN 
 #if HOTENDS > 1
     #define E1_AUTO_FAN_PIN myE1_AUTO_FAN_PIN
 #else

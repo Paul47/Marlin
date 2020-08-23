@@ -427,10 +427,6 @@ Can also be digital pins D##
 //  3.3V max when defined as an analog input
 //
 
- //ppd06 - 8/23/20 temporary define for bed sensor until config.h updated
-#define myTEMP_SENSOR_0_PIN A0
-#define myTEMP_SENSOR_BED_PIN A1 
-
 #define TEMP_0_PIN      myTEMP_SENSOR_0_PIN
 #define TEMP_BED_PIN    myTEMP_SENSOR_BED_PIN
 #if HOTENDS  > 1    
