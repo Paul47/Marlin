@@ -384,7 +384,7 @@ D52     P0_15   //SPI-SCK so may not be useable for other
   #endif
 
   // Reduce baud rate to improve software serial reliability
-  #define TMC_BAUD_RATE 19200
+  #define TMC_BAUD_RATE                    19200
 #endif
 
 //
