@@ -24,6 +24,8 @@
 /**
 
  *****MY Settings****  //ppd  
+ * 8/28/2020 updated to versioin 2.0.6
+ *  using github desktop to can merge in future versions - did w/ 6.0.2.1 8/28/2020
  * current version number in Version.h:
  *      SHORT_BUILD_VERSION "2.0.5.3E" -> E for eeprom bug
  * M302 to set the minimum extrusion temperature and/or turn
@@ -176,10 +178,12 @@
 //Stepper type  //ppd
 //
 //ppd added if for driver selection. select at top under motherboard
-//#define using_TMC2208     //ppd
-#define using_DRV_8825
+#define using_TMC2208_STANDALONE     //ppd
+//#define using_TMC2208_UART
+//#define using_TMC2209_UART
+//not coded yet: #define myTMC_DIAG_ENABLE 1  //enables TMC_DEBUG and MONITOR_DRIVER_STATUS M122, M906, M911, M912
 //#define using_TMC2100
-//#define using_TMC2209
+//#define using_DRV_8825
 
 // @section extruder
 
@@ -789,7 +793,7 @@ UNUSED SENSORS MUST BE DEFINED AS NOT_USED TO AVOID THIS ERROR:
  * :['A4988', 'A5984', 'DRV8825', 'LV8729', 'L6470', 'L6474', 'POWERSTEP01', 'TB6560', 'TB6600', 'TMC2100', 'TMC2130', 'TMC2130_STANDALONE', 'TMC2160', 'TMC2160_STANDALONE', 'TMC2208', 'TMC2208_STANDALONE', 'TMC2209', 'TMC2209_STANDALONE', 'TMC26X', 'TMC26X_STANDALONE', 'TMC2660', 'TMC2660_STANDALONE', 'TMC5130', 'TMC5130_STANDALONE', 'TMC5160', 'TMC5160_STANDALONE']
  */
 //ppd added if for driver selection. select at top under motherboard
- #ifdef using_TMC2208
+ #ifdef using_TMC2208_STANDALONE
 	#define X_DRIVER_TYPE  TMC2208_STANDALONE
 	#define Y_DRIVER_TYPE  TMC2208_STANDALONE
 	#define Z_DRIVER_TYPE  TMC2208_STANDALONE
@@ -798,10 +802,20 @@ UNUSED SENSORS MUST BE DEFINED AS NOT_USED TO AVOID THIS ERROR:
 	#define E1_DRIVER_TYPE TMC2208_STANDALONE
 	#define E2_DRIVER_TYPE TMC2208_STANDALONE
 	#define E3_DRIVER_TYPE TMC2208_STANDALONE
-	//#define E4_DRIVER_TYPE TMC2208_STANDALONE
+#endif
+
+ #ifdef using_TMC2208_UART
+	#define X_DRIVER_TYPE  TMC2208
+	#define Y_DRIVER_TYPE  TMC2208
+	#define Z_DRIVER_TYPE  TMC2208
+
+ 	#define E0_DRIVER_TYPE TMC2208
+	#define E1_DRIVER_TYPE TMC2208
+	#define E2_DRIVER_TYPE TMC2208
+	#define E3_DRIVER_TYPE TMC2208
 #endif
  
-#ifdef using_TMC2209		//ppd
+#ifdef using_TMC2209_UART		//ppd
 	#define X_DRIVER_TYPE  TMC2209
 	#define Y_DRIVER_TYPE  TMC2209
 	#define Z_DRIVER_TYPE  TMC2209
@@ -810,7 +824,6 @@ UNUSED SENSORS MUST BE DEFINED AS NOT_USED TO AVOID THIS ERROR:
 	#define E1_DRIVER_TYPE TMC2209
 	#define E2_DRIVER_TYPE TMC2209
 	#define E3_DRIVER_TYPE TMC2209
-	//#define E4_DRIVER_TYPE TMC2209
 #endif
 
 #ifdef using_TMC2100	
@@ -822,8 +835,8 @@ UNUSED SENSORS MUST BE DEFINED AS NOT_USED TO AVOID THIS ERROR:
 	#define E1_DRIVER_TYPE TMC2100
 	#define E2_DRIVER_TYPE TMC2100
 	#define E3_DRIVER_TYPE TMC2100
-	//#define E4_DRIVER_TYPE TMC2100
  #endif
+ 
 //************************************************************
 #ifdef using_DRV8825			//ppd
 	#define X_DRIVER_TYPE  DRV8825
