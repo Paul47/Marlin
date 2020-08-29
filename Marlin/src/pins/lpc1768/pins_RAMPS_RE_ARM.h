@@ -355,36 +355,59 @@ D52     P0_15   //SPI-SCK so may not be useable for other
   // P2_13 E1-Dir
 
   #ifndef X_SERIAL_TX_PIN
-    #define X_SERIAL_TX_PIN                P0_01
+    #define X_SERIAL_TX_PIN                RAMPS_D21_PIN  //I2C
   #endif
   #ifndef X_SERIAL_RX_PIN
-    #define X_SERIAL_RX_PIN                P0_01
+    #define X_SERIAL_RX_PIN                RAMPS_D21_PIN 
   #endif
 
   #ifndef Y_SERIAL_TX_PIN
-    #define Y_SERIAL_TX_PIN                P0_00
+    #define Y_SERIAL_TX_PIN                RAMPS_D20_PIN   //I2C
   #endif
   #ifndef Y_SERIAL_RX_PIN
-    #define Y_SERIAL_RX_PIN                P0_00
+    #define Y_SERIAL_RX_PIN                RAMPS_D20_PIN
   #endif
 
   #ifndef Z_SERIAL_TX_PIN
-    #define Z_SERIAL_TX_PIN                P2_13
+    #define Z_SERIAL_TX_PIN                RAMPS_D34_PIN  //E1_DIR_PIN conflict
   #endif
   #ifndef Z_SERIAL_RX_PIN
-    #define Z_SERIAL_RX_PIN                P2_13
+    #define Z_SERIAL_RX_PIN                RAMPS_D34_PIN
   #endif
 
   #ifndef E0_SERIAL_TX_PIN
-    #define E0_SERIAL_TX_PIN               P2_08
+    #define E0_SERIAL_TX_PIN               RAMPS_D36_PIN  //E1_STEP_PIN conflict
   #endif
   #ifndef E0_SERIAL_RX_PIN
-    #define E0_SERIAL_RX_PIN               P2_08
+    #define E0_SERIAL_RX_PIN               RAMPS_D36_PIN
+  #endif
+
+ #ifndef E1_SERIAL_TX_PIN
+    #define E1_SERIAL_TX_PIN              //?? //ppd_UART     
+  #endif
+#ifndef E1_SERIAL_RX_PIN
+    #define E1_SERIAL_RX_PIN   
+  #endif
+
+ #ifndef E2_SERIAL_TX_PIN
+    #define E2_SERIAL_TX_PIN              //?? //ppd_UART     
+  #endif
+#ifndef E2_SERIAL_RX_PIN
+    #define E2_SERIAL_RX_PIN   
+  #endif
+
+ #ifndef E3_SERIAL_TX_PIN
+    #define E3_SERIAL_TX_PIN              //?? //ppd_UART     
+  #endif
+#ifndef E3_SERIAL_RX_PIN
+    #define E3_SERIAL_RX_PIN   
   #endif
 
   // Reduce baud rate to improve software serial reliability
   #define TMC_BAUD_RATE                    19200
 #endif
+
+
 
 //
 // Temperature Sensors

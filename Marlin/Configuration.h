@@ -182,6 +182,7 @@
 //#define using_TMC2208_UART
 //#define using_TMC2209_UART
 //not coded yet: #define myTMC_DIAG_ENABLE 1  //enables TMC_DEBUG and MONITOR_DRIVER_STATUS M122, M906, M911, M912
+//HAS_TMC_UART must be defined in drivers.h for UART pins to be defined
 //#define using_TMC2100
 //#define using_DRV_8825
 
