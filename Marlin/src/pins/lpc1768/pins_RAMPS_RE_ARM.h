@@ -281,12 +281,6 @@ D52     P0_15   //SPI-SCK so may not be useable for other
 #ifndef E1_CS_PIN
   #define E1_CS_PIN                        -1
 #endif
-
-//
-//------------code for extruder motors 3 to 6 ----------------//ppd
-//
-//cannot use ALL RE-ARM AUX2 pins for motor expander-pins some are NC
-//try thiese pins on AUX1 and AUX2 
 //3rd extruder Motor 
 #if E_STEPPERS > 2
     #define E2_STEP_PIN   myE2_STEP_PIN 
@@ -303,24 +297,6 @@ D52     P0_15   //SPI-SCK so may not be useable for other
     #define E3_ENABLE_PIN myE3_ENABLE_PIN
     #ifndef E3_CS_PIN
       #define E3_CS_PIN   -1
-    #endif    
-#endif
-//5th extruder Motor
-#if E_STEPPERS > 4 
-    #define E4_STEP_PIN   myE4_STEP_PIN
-    #define E4_DIR_PIN    myE4_DIR_PIN           
-    #define E4_ENABLE_PIN myE4_ENABLE_PIN
-    #ifndef E4_CS_PIN
-      #define E4_CS_PIN   -1
-    #endif    
-#endif
-//6th extruder Motor 
-#if E_STEPPERS > 5 
-    #define E5_STEP_PIN   myE5_STEP_PIN
-    #define E5_DIR_PIN    myE5_DIR_PIN             
-    #define E5_ENABLE_PIN myE5_ENABLE_PIN
-    #ifndef E5_CS_PIN
-      #define E5_CS_PIN   -1
     #endif    
 #endif
 
@@ -347,67 +323,46 @@ D52     P0_15   //SPI-SCK so may not be useable for other
    * If undefined software serial is used according to the pins below
    */
 
-  //
-  // Software serial
-  //
+/**
+* Software serial
+*/
+/**
+* These 2 cannot be used if multi-extruders
+* P2_08 E1-Step
+* P2_13 E1-Dir
+* 
+*  X,Y,E0 Use WEB tested pins 1st because
+* these were reported as working for UART and are interrupt enabled
+*
+* Z axis is not monitored since it is seldom under heavy use
+* so define as TMC2208_STANDALONE
+*
+* E1,E2,E3are NOT interrupt enabled - see if they work!! //ppd06
+*/
 
-  // P2_08 E1-Step
-  // P2_13 E1-Dir
+#define X_SERIAL_TX_PIN   P0_01      //RAMPS_D21_PIN //I2C P1   
+#define X_SERIAL_RX_PIN   P0_01
 
-  #ifndef X_SERIAL_TX_PIN
-    #define X_SERIAL_TX_PIN                RAMPS_D21_PIN  //I2C
-  #endif
-  #ifndef X_SERIAL_RX_PIN
-    #define X_SERIAL_RX_PIN                RAMPS_D21_PIN 
-  #endif
+#define Y_SERIAL_TX_PIN    P0_00      // RAMPS_D20_PIN  //I2C P2
+#define Y_SERIAL_RX_PIN    P0_00
 
-  #ifndef Y_SERIAL_TX_PIN
-    #define Y_SERIAL_TX_PIN                RAMPS_D20_PIN   //I2C
-  #endif
-  #ifndef Y_SERIAL_RX_PIN
-    #define Y_SERIAL_RX_PIN                RAMPS_D20_PIN
-  #endif
+//no Z axis monitor Define as TMX2208_STANDALONE
 
-  #ifndef Z_SERIAL_TX_PIN
-    #define Z_SERIAL_TX_PIN                RAMPS_D34_PIN  //E1_DIR_PIN conflict
-  #endif
-  #ifndef Z_SERIAL_RX_PIN
-    #define Z_SERIAL_RX_PIN                RAMPS_D34_PIN
-  #endif
+#define E0_SERIAL_TX_PIN   P2_06      //RAMPS_D59_PIN //AUX-2 P8
+#define E0_SERIAL_RX_PIN   P2_06
 
-  #ifndef E0_SERIAL_TX_PIN
-    #define E0_SERIAL_TX_PIN               RAMPS_D36_PIN  //E1_STEP_PIN conflict
-  #endif
-  #ifndef E0_SERIAL_RX_PIN
-    #define E0_SERIAL_RX_PIN               RAMPS_D36_PIN
-  #endif
+#define E1_SERIAL_TX_PIN    P0_26        //RAMPS_D63_PIN //AUX-2 P7
+#define E1_SERIAL_RX_PIN    P0_26
 
- #ifndef E1_SERIAL_TX_PIN
-    #define E1_SERIAL_TX_PIN              //?? //ppd_UART     
-  #endif
-#ifndef E1_SERIAL_RX_PIN
-    #define E1_SERIAL_RX_PIN   
-  #endif
+#define E2_SERIAL_TX_PIN    P0_27        //RAMPS_D57_PIN //AUX-1 P4
+#define E2_SERIAL_RX_PIN    P0_27
 
- #ifndef E2_SERIAL_TX_PIN
-    #define E2_SERIAL_TX_PIN              //?? //ppd_UART     
-  #endif
-#ifndef E2_SERIAL_RX_PIN
-    #define E2_SERIAL_RX_PIN   
-  #endif
-
- #ifndef E3_SERIAL_TX_PIN
-    #define E3_SERIAL_TX_PIN              //?? //ppd_UART     
-  #endif
-#ifndef E3_SERIAL_RX_PIN
-    #define E3_SERIAL_RX_PIN   
-  #endif
+#define E3_SERIAL_TX_PIN    P0_28       //RAMPS_58_PIN  //AUX-1 P2
+#define E3_SERIAL_RX_PIN    P0_28
 
   // Reduce baud rate to improve software serial reliability
   #define TMC_BAUD_RATE                    19200
-#endif
-
-
+#endif  //HAS_TMC_UART
 
 //
 // Temperature Sensors
@@ -429,14 +384,13 @@ This code changes assign analog pins only if needed by HOTENDS to make sure ther
 Analog INPUT pins are designated as A# and run sequentially from 0 to 7 These pins
 Can also be digital pins D##
 */
-//ppd 05/20     Now required to be in P#_## format
-#define A0  P0_23_A0   // A0 (T0) - (67) - TEMP_0_PIN
-#define T0  P0_23_A0	//alternate label
-#define A1  P0_24_A1   // A1 (T1) - (68) - TEMP_BED_PIN
-#define T1  P0_24_A1    //was analog 1
-#define A2  P0_25_A2   // A2 (T2) - (69) - TEMP_1_PIN
-#define T2  P0_25_A2
-//RE-ARM available Thermistor pins as alalog input
+#define A0_67_PIN   P0_23_A0   // A0 (T0) - (67) - TEMP_0_PIN
+#define T0          P0_23_A0	 //alternate label
+#define A1_68_PIN   P0_24_A1   // A1 (T1) - (68) - TEMP_BED_PIN
+#define T1          P0_24_A1   //was analog 1
+#define A2_69_PIN   P0_25_A2   // A2 (T2) - (69) - TEMP_1_PIN
+#define T2          P0_25_A2
+//RE-ARM available Thermistor pins as analog input
 //format:A#_RAMPS_Dxx_PIN
 #define A3_63_PIN  P0_26_A3   //J5-3 & AUX-2
 #define A4_37_PIN  P1_30_A4   //BUZZER_PIN
@@ -449,24 +403,19 @@ Can also be digital pins D##
 //  3.3V max when defined as an analog input
 //
 
-#define TEMP_0_PIN      myTEMP_SENSOR_0_PIN
+#define TEMP_0_PIN      myTEMP_SENSOR_0_PIN   //E0
 #define TEMP_BED_PIN    myTEMP_SENSOR_BED_PIN
 #if HOTENDS  > 1    
-    #define TEMP_1_PIN  myTEMP_SENSOR_1_PIN
+    #define TEMP_1_PIN  myTEMP_SENSOR_1_PIN   //E1
 #endif
 #if HOTENDS  > 2
-    #define TEMP_2_PIN  myTEMP_SENSOR_2_PIN
+    #define TEMP_2_PIN  myTEMP_SENSOR_2_PIN   //E2
 #endif
 #if HOTENDS  > 3
-    #define TEMP_3_PIN  myTEMP_SENSOR_3_PIN
+    #define TEMP_3_PIN  myTEMP_SENSOR_3_PIN   //E3
 #endif
-#if HOTENDS  > 4
-    #define TEMP_4_PIN  myTEMP_SENSOR_4_PIN
-#endif
-#if HOTENDS  > 5
-    #define TEMP_5_PIN  myTEMP_SENSOR_5_PIN
-#endif
-#define FILWIDTH_PIN        A7 //( 1)  - TXD0 - J4-5 & AUX-1
+
+#define FILWIDTH_PIN        A7_01_PIN  //( 1)  - TXD0 - J4-5 & AUX-1
 
 //
 // Augmentation for auto-assigning RAMPS plugs

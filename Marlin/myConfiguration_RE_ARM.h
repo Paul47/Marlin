@@ -66,15 +66,6 @@
 #define myE3_DIR_PIN    RAMPS_D77_PIN 
 #define myE3_ENABLE_PIN RAMPS_D78_PIN
 
-//5th extruder Motor
-#define myE4_STEP_PIN   NO_EXT_PIN  //D44 but E-ARM N/A
-  //D44 E-ARM N/A - Move up E5 pins if need a 5th enother extruder?
-#define myE4_DIR_PIN    NO_EXT_PIN  //D42 but E-ARM N/A
-#define myE4_ENABLE_PIN NO_EXT_PIN  //RAMPS_D43_PIN     //Aux4
-//6th extruder Motor
-#define myE5_STEP_PIN   NO_EXT_PIN  //D47  but E-ARM N/A     //Aux4
-#define myE5_DIR_PIN    NO_EXT_PIN   //D32  but E-ARM N/A   //Aux4
-#define myE5_ENABLE_PIN NO_EXT_PIN  //D57 re-assign to E3_STEP  //Aux1
 /**  
  For multiple extruders define the heater pins
  HEATER_0_PIN is internally defined for all boards, but assign here to override defaults
@@ -89,9 +80,6 @@
 #define myHEATER_1_PIN RAMPS_D71_PIN     //servo pins     
 #define myHEATER_2_PIN RAMPS_D73_PIN     //servo pins 
 #define myHEATER_3_PIN RAMPS_D75_PIN     //D6 servo used for parts fan, D11 for controller fan 
-#define myHEATER_4_PIN NO_HEATER_PIN
-#define myHEATER_5_PIN NO_HEATER_PIN
-#define myHEATER_6_PIN NO_HEATER_PIN
 
 //
 // Hotend Temperature sensor pin assignments
@@ -135,7 +123,6 @@ TEMP_0_PIN, TEMP_1_PIN and TEMP_2_PIN are defined by default
 //to activate us analogue form of pin numbers
 #define myTEMP_SENSOR_2_PIN   A6_00_PIN  //D0 for extruder E2
 #define myTEMP_SENSOR_3_PIN   A7_01_PIN  //D1 for extruder E3  
-#define myTEMP_SENSOR_4_PIN   NO_TEMP_SENSOR 
 
 //FAN_PIN (Parts fan) is defined as FAN0.  default: PC8 
 //Extruder cooling fans (actually HOTENDS not EXTRUDERS)
@@ -156,8 +143,6 @@ TEMP_0_PIN, TEMP_1_PIN and TEMP_2_PIN are defined by default
 #define myE1_AUTO_FAN_PIN  RAMPS_D4_PIN  //PWM/SERVO Pin
 #define myE2_AUTO_FAN_PIN  RAMPS_D5_PIN  //PWM or SERVO Pin
 #define myE3_AUTO_FAN_PIN  RAMPS_D79_PIN //PWM or SERVO Pin
-#define myE4_AUTO_FAN_PIN   NO_E_PIN //PWM or SERVO Pin
-#define myE5_AUTO_FAN_PIN   NO_E_PIN //PWM or SERVO Pin
 
 /**
  * Controller Fan

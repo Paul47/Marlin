@@ -178,11 +178,10 @@
 //Stepper type  //ppd
 //
 //ppd added if for driver selection. select at top under motherboard
-#define using_TMC2208_STANDALONE     //ppd
-//#define using_TMC2208_UART
+//#define using_TMC2208_STANDALONE     //ppd
+#define using_TMC2208_UART
 //#define using_TMC2209_UART
 //not coded yet: #define myTMC_DIAG_ENABLE 1  //enables TMC_DEBUG and MONITOR_DRIVER_STATUS M122, M906, M911, M912
-//HAS_TMC_UART must be defined in drivers.h for UART pins to be defined
 //#define using_TMC2100
 //#define using_DRV_8825
 
@@ -794,7 +793,7 @@ UNUSED SENSORS MUST BE DEFINED AS NOT_USED TO AVOID THIS ERROR:
  * :['A4988', 'A5984', 'DRV8825', 'LV8729', 'L6470', 'L6474', 'POWERSTEP01', 'TB6560', 'TB6600', 'TMC2100', 'TMC2130', 'TMC2130_STANDALONE', 'TMC2160', 'TMC2160_STANDALONE', 'TMC2208', 'TMC2208_STANDALONE', 'TMC2209', 'TMC2209_STANDALONE', 'TMC26X', 'TMC26X_STANDALONE', 'TMC2660', 'TMC2660_STANDALONE', 'TMC5130', 'TMC5130_STANDALONE', 'TMC5160', 'TMC5160_STANDALONE']
  */
 //ppd added if for driver selection. select at top under motherboard
- #ifdef using_TMC2208_STANDALONE
+ #ifdef using_TMC2208_STANDALONE  //ppd
 	#define X_DRIVER_TYPE  TMC2208_STANDALONE
 	#define Y_DRIVER_TYPE  TMC2208_STANDALONE
 	#define Z_DRIVER_TYPE  TMC2208_STANDALONE
@@ -805,15 +804,22 @@ UNUSED SENSORS MUST BE DEFINED AS NOT_USED TO AVOID THIS ERROR:
 	#define E3_DRIVER_TYPE TMC2208_STANDALONE
 #endif
 
- #ifdef using_TMC2208_UART
+ #ifdef using_TMC2208_UART  //ppd
 	#define X_DRIVER_TYPE  TMC2208
 	#define Y_DRIVER_TYPE  TMC2208
-	#define Z_DRIVER_TYPE  TMC2208
-
- 	#define E0_DRIVER_TYPE TMC2208
+ 	#define E0_DRIVER_TYPE TMC2208  
 	#define E1_DRIVER_TYPE TMC2208
-	#define E2_DRIVER_TYPE TMC2208
-	#define E3_DRIVER_TYPE TMC2208
+  #if MOTHERBOARD  == BOARD_RAMPS_14_RE_ARM_EFB
+    //these do not work yet for RE-ARM
+    #define Z_DRIVER_TYPE  TMC2208_STANDALONE //***no pin for Z axis at this point //ppd
+    #define E2_DRIVER_TYPE TMC2208_STANDALONE //error: requires E2_HARDWARE_SERIAL or E2_SERIAL_(RX|TX)_PIN
+  	#define E3_DRIVER_TYPE TMC2208_STANDALONE //error: requires E2_HARDWARE_SERIAL or E2_SERIAL_(RX|TX)_PIN
+  #else
+  //These work for SKR PRO
+  	#define Z_DRIVER_TYPE  TMC2208
+	  #define E2_DRIVER_TYPE TMC2208
+	  #define E3_DRIVER_TYPE TMC2208
+  #endif
 #endif
  
 #ifdef using_TMC2209_UART		//ppd

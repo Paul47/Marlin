@@ -412,8 +412,8 @@ So external stepper chips lke TMC2130 cannot use the SPI feature.
   #define E2_SERIAL_TX_PIN                  PD6
   #define E2_SERIAL_RX_PIN                  PD6
 
-  #define E3_SERIAL_TX_PIN                  EXT_2_5_PIN //URT_4_PIN = PE2 //ppd_UART
-  #define E3_SERIAL_RX_PIN                  EXT_2_5_PIN
+  #define E3_SERIAL_TX_PIN                  PE2   //EXT_2_5_PIN //ppd pin to try
+  #define E3_SERIAL_RX_PIN                  PE2
 
   // Reduce baud rate to improve software serial reliability
   #define TMC_BAUD_RATE                    19200
