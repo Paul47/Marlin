@@ -160,4 +160,50 @@ TEMP_0_PIN, TEMP_1_PIN and TEMP_2_PIN are defined by default
 */
 #define FAN_PIN RAMPS_D6_PIN	//ppd ** my  over-ride EFB & EEB both = D6
 
+
+
+//ppd TMC2208/TMC2209 added  driver selection. select at top of configuration.h under motherboard
+ #ifdef using_TMC2208_STANDALONE  //ppd
+	#define X_DRIVER_TYPE  TMC2208_STANDALONE
+	#define Y_DRIVER_TYPE  TMC2208_STANDALONE
+	#define Z_DRIVER_TYPE  TMC2208_STANDALONE
+
+ 	#define E0_DRIVER_TYPE TMC2208_STANDALONE
+	#define E1_DRIVER_TYPE TMC2208_STANDALONE
+	#define E2_DRIVER_TYPE TMC2208_STANDALONE
+	#define E3_DRIVER_TYPE TMC2208_STANDALONE
+#endif
+
+//ppd added if for driver selection. select at top under motherboard
+ #ifdef using_TMC2208_UART  //ppd
+	#define X_DRIVER_TYPE  TMC2208
+	#define Y_DRIVER_TYPE  TMC2208
+ 	#define E0_DRIVER_TYPE TMC2208  
+	#define E1_DRIVER_TYPE TMC2208
+    #define Z_DRIVER_TYPE  TMC2208_STANDALONE //***no pin for Z axis at this point //ppd
+    #define E2_DRIVER_TYPE TMC2208_STANDALONE //error: requires E2_HARDWARE_SERIAL or E2_SERIAL_(RX|TX)_PIN
+  	#define E3_DRIVER_TYPE TMC2208_STANDALONE //error: requires E3_HARDWARE_SERIAL or E2_SERIAL_(RX|TX)_PIN
+#endif
+ 
+#ifdef using_TMC2209_UART	//ppd
+	#define X_DRIVER_TYPE  TMC2209
+	#define Y_DRIVER_TYPE  TMC2209
+ 	#define E0_DRIVER_TYPE TMC2209
+	#define E1_DRIVER_TYPE TMC2209
+    #define Z_DRIVER_TYPE  TMC2209_STANDALONE //***no pin for Z axis at this point //ppd
+    #define E2_DRIVER_TYPE TMC2209_STANDALONE //error: requires E2_HARDWARE_SERIAL or E2_SERIAL_(RX|TX)_PIN
+  	#define E3_DRIVER_TYPE TMC2209_STANDALONE //error: requires E3_HARDWARE_SERIAL or E2_SERIAL_(RX|TX)_PIN
+#endif
+
+ #ifdef using_TMC2209  //ppd
+	#define X_DRIVER_TYPE  TMC2209_STANDALONE
+	#define Y_DRIVER_TYPE  TMC2209_STANDALONE
+	#define Z_DRIVER_TYPE  TMC2209_STANDALONE
+
+ 	#define E0_DRIVER_TYPE TMC2209_STANDALONE
+	#define E1_DRIVER_TYPE TMC2209_STANDALONE
+	#define E2_DRIVER_TYPE TMC209_STANDALONE
+	#define E3_DRIVER_TYPE TMC2209_STANDALONE
+#endif
+ 
 //**************************custom pins for RE-ARM end *******************************                                                              

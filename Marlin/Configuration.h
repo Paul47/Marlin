@@ -161,8 +161,8 @@
 #define DEFAULT_NOMINAL_FILAMENT_DIA 1.75 //ppd   
 // Choose the name from boards.h that matches your setup
 #ifndef MOTHERBOARD
-  //#define MOTHERBOARD BOARD_RAMPS_14_RE_ARM_EFB  //<<<<<<<<<<<<<<<<<<
-  #define MOTHERBOARD BOARD_BTT_SKR_PRO_V1_1
+  #define MOTHERBOARD BOARD_RAMPS_14_RE_ARM_EFB  //<<<<<<<<<<<<<<<<<<
+  //#define MOTHERBOARD BOARD_BTT_SKR_PRO_V1_1
   //#define MOTHERBOARD BOARD_RAMPS_14_EFB
 #endif
 
@@ -180,9 +180,9 @@
 //ppd added if for driver selection. select at top under motherboard
 //#define using_TMC2208_STANDALONE     //ppd
 #define using_TMC2208_UART
+//#define using_TMC2209_STANDALONE
 //#define using_TMC2209_UART
 //not coded yet: #define myTMC_DIAG_ENABLE 1  //enables TMC_DEBUG and MONITOR_DRIVER_STATUS M122, M906, M911, M912
-//#define using_TMC2100
 //#define using_DRV_8825
 
 // @section extruder
@@ -792,59 +792,11 @@ UNUSED SENSORS MUST BE DEFINED AS NOT_USED TO AVOID THIS ERROR:
  *          TMC5130, TMC5130_STANDALONE, TMC5160, TMC5160_STANDALONE
  * :['A4988', 'A5984', 'DRV8825', 'LV8729', 'L6470', 'L6474', 'POWERSTEP01', 'TB6560', 'TB6600', 'TMC2100', 'TMC2130', 'TMC2130_STANDALONE', 'TMC2160', 'TMC2160_STANDALONE', 'TMC2208', 'TMC2208_STANDALONE', 'TMC2209', 'TMC2209_STANDALONE', 'TMC26X', 'TMC26X_STANDALONE', 'TMC2660', 'TMC2660_STANDALONE', 'TMC5130', 'TMC5130_STANDALONE', 'TMC5160', 'TMC5160_STANDALONE']
  */
-//ppd added if for driver selection. select at top under motherboard
- #ifdef using_TMC2208_STANDALONE  //ppd
-	#define X_DRIVER_TYPE  TMC2208_STANDALONE
-	#define Y_DRIVER_TYPE  TMC2208_STANDALONE
-	#define Z_DRIVER_TYPE  TMC2208_STANDALONE
 
- 	#define E0_DRIVER_TYPE TMC2208_STANDALONE
-	#define E1_DRIVER_TYPE TMC2208_STANDALONE
-	#define E2_DRIVER_TYPE TMC2208_STANDALONE
-	#define E3_DRIVER_TYPE TMC2208_STANDALONE
-#endif
+//ppd TMC2208/TMC2209 added  driver selection. select at top of configuration.h under motherboard
+// These defines are moved to myBOARDNAME_configuration.h files
 
- #ifdef using_TMC2208_UART  //ppd
-	#define X_DRIVER_TYPE  TMC2208
-	#define Y_DRIVER_TYPE  TMC2208
- 	#define E0_DRIVER_TYPE TMC2208  
-	#define E1_DRIVER_TYPE TMC2208
-  #if MOTHERBOARD  == BOARD_RAMPS_14_RE_ARM_EFB
-    //these do not work yet for RE-ARM
-    #define Z_DRIVER_TYPE  TMC2208_STANDALONE //***no pin for Z axis at this point //ppd
-    #define E2_DRIVER_TYPE TMC2208_STANDALONE //error: requires E2_HARDWARE_SERIAL or E2_SERIAL_(RX|TX)_PIN
-  	#define E3_DRIVER_TYPE TMC2208_STANDALONE //error: requires E2_HARDWARE_SERIAL or E2_SERIAL_(RX|TX)_PIN
-  #else
-  //These work for SKR PRO
-  	#define Z_DRIVER_TYPE  TMC2208
-	  #define E2_DRIVER_TYPE TMC2208
-	  #define E3_DRIVER_TYPE TMC2208
-  #endif
-#endif
  
-#ifdef using_TMC2209_UART		//ppd
-	#define X_DRIVER_TYPE  TMC2209
-	#define Y_DRIVER_TYPE  TMC2209
-	#define Z_DRIVER_TYPE  TMC2209
-
- 	#define E0_DRIVER_TYPE TMC2209
-	#define E1_DRIVER_TYPE TMC2209
-	#define E2_DRIVER_TYPE TMC2209
-	#define E3_DRIVER_TYPE TMC2209
-#endif
-
-#ifdef using_TMC2100	
-	#define X_DRIVER_TYPE  TMC2100
-	#define Y_DRIVER_TYPE  TMC2100
-	#define Z_DRIVER_TYPE  TMC2100
-                              
-	#define E0_DRIVER_TYPE TMC2100
-	#define E1_DRIVER_TYPE TMC2100
-	#define E2_DRIVER_TYPE TMC2100
-	#define E3_DRIVER_TYPE TMC2100
- #endif
- 
-//************************************************************
 #ifdef using_DRV8825			//ppd
 	#define X_DRIVER_TYPE  DRV8825
 	#define Y_DRIVER_TYPE  DRV8825

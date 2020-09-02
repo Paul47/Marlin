@@ -167,5 +167,57 @@ TEMP_0_PIN, TEMP_1_PIN and TEMP_2_PIN are defined by default
  */
 #define myCONTROLLER_FAN_PIN FAN2_PIN       //define as needed  //ppd
 
+/**
+ * Stepper Drivers
+ *
+ * These settings allow Marlin to tune stepper driver timing and enable advanced options for
+ * stepper drivers that support them. You may also override timing options in Configuration_adv.h.
+ *
+ */
 
+//ppd TMC2208/TMC2209 added  driver selection. select at top of configuration.h under motherboard
+ #ifdef using_TMC2208_STANDALONE  //ppd
+	#define X_DRIVER_TYPE  TMC2208_STANDALONE
+	#define Y_DRIVER_TYPE  TMC2208_STANDALONE
+	#define Z_DRIVER_TYPE  TMC2208_STANDALONE
+
+ 	#define E0_DRIVER_TYPE TMC2208_STANDALONE
+	#define E1_DRIVER_TYPE TMC2208_STANDALONE
+	#define E2_DRIVER_TYPE TMC2208_STANDALONE
+	#define E3_DRIVER_TYPE TMC2208_STANDALONE
+#endif
+
+//ppd added if for driver selection. select at top under motherboard
+ #ifdef using_TMC2208_UART  //ppd
+	#define X_DRIVER_TYPE  TMC2208
+	#define Y_DRIVER_TYPE  TMC2208
+ 	#define E0_DRIVER_TYPE TMC2208  
+	#define E1_DRIVER_TYPE TMC2208
+  	#define Z_DRIVER_TYPE  TMC2208
+	#define E2_DRIVER_TYPE TMC2208
+	#define E3_DRIVER_TYPE TMC2208
+#endif
+ 
+#ifdef using_TMC2209_UART	//ppd
+	#define X_DRIVER_TYPE  TMC2209
+	#define Y_DRIVER_TYPE  TMC2209
+	#define Z_DRIVER_TYPE  TMC2209
+
+ 	#define E0_DRIVER_TYPE TMC2209
+	#define E1_DRIVER_TYPE TMC2209
+	#define E2_DRIVER_TYPE TMC2209
+	#define E3_DRIVER_TYPE TMC2209
+#endif
+
+ #ifdef using_TMC2209  //ppd
+	#define X_DRIVER_TYPE  TMC2209_STANDALONE
+	#define Y_DRIVER_TYPE  TMC2209_STANDALONE
+	#define Z_DRIVER_TYPE  TMC2209_STANDALONE
+
+ 	#define E0_DRIVER_TYPE TMC2209_STANDALONE
+	#define E1_DRIVER_TYPE TMC2209_STANDALONE
+	#define E2_DRIVER_TYPE TMC209_STANDALONE
+	#define E3_DRIVER_TYPE TMC2209_STANDALONE
+#endif
+ 
 //**************************custom pins for SKR PRO end *******************************                                                                     
