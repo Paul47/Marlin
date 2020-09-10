@@ -348,17 +348,17 @@ D52     P0_15   //SPI-SCK so may not be useable for other
 
 //no Z axis monitor Define as TMX2208_STANDALONE
 
-#define E0_SERIAL_TX_PIN   P2_06      //RAMPS_D59_PIN //AUX-2 P8
+#define E0_SERIAL_TX_PIN   P2_06       //RAMPS_D59_PIN //AUX-2 P8
 #define E0_SERIAL_RX_PIN   P2_06
 
-#define E1_SERIAL_TX_PIN    P0_26        //RAMPS_D63_PIN //AUX-2 P7
+#define E1_SERIAL_TX_PIN    P0_26       //RAMPS_D63_PIN //AUX-2 P7
 #define E1_SERIAL_RX_PIN    P0_26
 
-#define E2_SERIAL_TX_PIN    P0_27        //RAMPS_D57_PIN //AUX-1 P4
-#define E2_SERIAL_RX_PIN    P0_27
+#define E2_SERIAL_TX_PIN    P1_30       //RAMPS_D37_PIN //AUX-4 P9 =	BEEPER_PIN >>not 5V tolerant<<
+#define E2_SERIAL_RX_PIN    P1_30       //>>>> NOTE LINE 639 BEEPER_PIN disabled as -1
 
-#define E3_SERIAL_TX_PIN    P0_28       //RAMPS_58_PIN  //AUX-1 P2
-#define E3_SERIAL_RX_PIN    P0_28
+#define E3_SERIAL_TX_PIN    P2_11       //RAMPS_D35_PIN  //AUX-4 P10 And J3-3 = BTN_ENC
+#define E3_SERIAL_RX_PIN    P2_11       //NOTE LINE 638 BTN_ENC disables as -1
 
   // Reduce baud rate to improve software serial reliability
   #define TMC_BAUD_RATE                    19200
@@ -636,8 +636,8 @@ OR they can be paired i(in parallel) with other heater pins
     #define BEEPER_PIN                     P1_01
     #define BTN_ENC                        P1_04
   #else
-    #define BEEPER_PIN                     P1_30  // (37) not 5V tolerant
-    #define BTN_ENC                        P2_11  // (35) J3-3 & AUX-4
+    #define BEEPER_PIN                     P1_30  // (37) not 5V tolerant  //ppd
+    #define BTN_ENC                        P2_11  // (35) J3-3 & AUX-4     //ppd
   #endif
 
   #define BTN_EN1                          P3_26  // (31) J3-2 & AUX-4

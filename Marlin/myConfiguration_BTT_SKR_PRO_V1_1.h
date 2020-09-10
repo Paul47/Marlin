@@ -23,7 +23,7 @@
  * Next I gave hard coded pin assignemnts in pins.h like PF7 (SKR_PRO) more understandable names.
  * Pins can be multiply defined, essentially having several names for the same pin.
  * Here many of the pins are defined to be identified more easily by location or function.
- * Example by location: EXT_1_3_PIN	makes more sense than PF8 to locate the pin on Extensio-1 pin 3.
+ * Example by location: EXT_1_3_PIN	makes more sense than PF8 to locate the pin on Extension-1 pin 3.
  * Example by function: EMAX_X_PIN for PE15 to define extruder X maximum endstop.
  * Redefines for I2C, UART, BLT, etc. are included.
  * 
@@ -208,7 +208,7 @@ TEMP_0_PIN, TEMP_1_PIN and TEMP_2_PIN are defined by default
 	#define E2_DRIVER_TYPE TMC2209
 	#define E3_DRIVER_TYPE TMC2209
 #endif
-
+ 
  #ifdef using_TMC2209  //ppd
 	#define X_DRIVER_TYPE  TMC2209_STANDALONE
 	#define Y_DRIVER_TYPE  TMC2209_STANDALONE
