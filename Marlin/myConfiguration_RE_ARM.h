@@ -58,13 +58,13 @@
 // 1st 2 extruder motors are set by default                                           
 #define NO_EXT_PIN 99               //NOTE: unused pins cannot be set to -1 as with some parameters.
 // 3rd extruder Motor
-#define myE2_STEP_PIN   RAMPS_D70_PIN    //ppd 6/13/20
+#define myE2_STEP_PIN   RAMPS_D70_PIN    //ppd
 #define myE2_DIR_PIN    RAMPS_D72_PIN
-#define myE2_ENABLE_PIN RAMPS_D74_PIN
+#define myE2_ENABLE_PIN RAMPS_D57_PIN	//was D74 J12 //remap pin to AUX-1 for E2 UART line//ppdUART
 //4th extruder Motor
 #define myE3_STEP_PIN   RAMPS_D76_PIN
 #define myE3_DIR_PIN    RAMPS_D77_PIN 
-#define myE3_ENABLE_PIN RAMPS_D78_PIN
+#define myE3_ENABLE_PIN RAMPS_D58_PIN	//was D78 J12  /remap pin to AUX-1  for E3 UART line //ppdUART
 
 /**  
  For multiple extruders define the heater pins
@@ -180,7 +180,8 @@ TEMP_0_PIN, TEMP_1_PIN and TEMP_2_PIN are defined by default
 	#define Y_DRIVER_TYPE  TMC2208
  	#define E0_DRIVER_TYPE TMC2208  
 	#define E1_DRIVER_TYPE TMC2208
-    #define Z_DRIVER_TYPE  TMC2208_STANDALONE //***no pin for Z axis at this point //ppd
+	//Z-AXIS not UART because of lack of pins anf Z not under stress
+    #define Z_DRIVER_TYPE  TMC2208_STANDALONE   //no pins available //ppdUART
     #define E2_DRIVER_TYPE TMC2208
   	#define E3_DRIVER_TYPE TMC2208
 #endif
@@ -190,7 +191,8 @@ TEMP_0_PIN, TEMP_1_PIN and TEMP_2_PIN are defined by default
 	#define Y_DRIVER_TYPE  TMC2209
  	#define E0_DRIVER_TYPE TMC2209
 	#define E1_DRIVER_TYPE TMC2209
-    #define Z_DRIVER_TYPE  TMC2209_STANDALONE //***no pin for Z axis at this point //ppd
+	//Z-AXIS not UART because of lack of pins anf Z not under stress
+    #define Z_DRIVER_TYPE  TMC2209_STANDALONE   //no pins available //ppdUART
     #define E2_DRIVER_TYPE TMC2209
   	#define E3_DRIVER_TYPE TMC2209
 #endif

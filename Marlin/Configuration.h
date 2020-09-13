@@ -181,9 +181,9 @@
 //#define using_TMC2208_STANDALONE     //ppd
 //#define using_TMC2208_UART
 //#define using_TMC2209_STANDALONE
-#define using_TMC2209_UART
+//#define using_TMC2209_UART
 //not coded yet: #define myTMC_DIAG_ENABLE 1  //enables TMC_DEBUG and MONITOR_DRIVER_STATUS M122, M906, M911, M912
-//#define using_DRV_8825
+#define using_DRV8825
 
 // @section extruder
 
@@ -806,7 +806,6 @@ UNUSED SENSORS MUST BE DEFINED AS NOT_USED TO AVOID THIS ERROR:
 	#define E1_DRIVER_TYPE DRV8825
 	#define E2_DRIVER_TYPE DRV8825
 	#define E3_DRIVER_TYPE DRV8825
-	//#define E4_DRIVER_TYPE DRV8825
 #endif  
 
 // Enable this feature if all enabled endstop pins are interrupt-capable.
