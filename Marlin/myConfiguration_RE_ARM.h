@@ -207,5 +207,30 @@ TEMP_0_PIN, TEMP_1_PIN and TEMP_2_PIN are defined by default
 	#define E2_DRIVER_TYPE TMC209_STANDALONE
 	#define E3_DRIVER_TYPE TMC2209_STANDALONE
 #endif
- 
+  
+  /**
+   * TMC2208/TMC2209 stepper drivers for UART communication
+   *
+   * Hardware serial communication ports.
+   * If undefined software serial is used according to the pins below
+   */
+
+//#if HAS_TMC_UART
+/**
+* Software serial
+*/
+/**
+* Z axis is not monitored since it is seldom under heavy use	//ppd
+* so define as TMC2208_STANDALONE
+*/
+
+#define myX_SERIAL_PIN   RAMPS_D21_PIN //I2C P1
+#define myY_SERIAL_PIN   RAMPS_D20_PIN //I2C P2
+#define myZ_SERIAL_PIN   -1	
+#define myE0_SERIAL_PIN  RAMPS_D59_PIN //AUX-2 P8
+#define myE1_SERIAL_PIN  RAMPS_D63_PIN //AUX-2 P7
+#define myE2_SERIAL_PIN  RAMPS_D74_PIN //J12
+#define myE3_SERIAL_PIN  RAMPS_D78_PIN //J12
+//#endif  //HAS_TMC_UART
+
 //**************************custom pins for RE-ARM end *******************************                                                              

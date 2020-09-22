@@ -22,25 +22,30 @@
 #pragma once
 
 /**
-
  *****MY Settings****  //ppd  
+ * 9/20/2020 for RE_ARM UART moved pin assignments to myConsifuration_RE_ARM.h 
+ *  with other pins that can be easily changed by the user.
+ *  Tested with TMC2208, TMC2209, AND MKS2208
+ * 9/20/2020 enabled UART for both RE-ARM and SKR PRO. 
+ *  Tested on myRAMPS+4 extension boards for both RE-ARM and SKR PRO.
  * 8/28/2020 updated to versioin 2.0.6
- *  using github desktop to can merge in future versions - did w/ 6.0.2.1 8/28/2020
- * current version number in Version.h:
- *      SHORT_BUILD_VERSION "2.0.5.3E" -> E for eeprom bug
- * M302 to set the minimum extrusion temperature and/or turn
- * cold extrusion prevention on and off. 
+ *  using github desktop to merge in future versions - did w/ 6.0.2.1 8/28/2020
+ *  current version number in Version.h:
+ * M302 enabled to set the minimum extrusion temperature and/or turn
+ *  cold extrusion prevention on and off. 
  * M302 P0 to enable, M302 P1 to disable temp checking
- * M302 Sxxx sets the min-tempeture
+ * M302 Sxxx sets the min-tempeture, S0 = 0 degrees
  *
  * Configuration.h
  8/23/20 UPDATED TO MARLIN 2.0.6
  8/23/20 removed "myConfig_RE_ARM_RAMPSXB.h"
- * RE_ARM config header file ERROR: NO HEATER_1,2,3 PINS DEFINED!!!!!!!!!!!!
+ * RE_ARM config header file ERROR: NO HEATER_1,2,3 PINS DEFINED - fixed
+ * 
  * 6/12/20 Added RAMPSXB configurartion header "myConfig_RE_ARM_RAMPSXB.h"
  *     Select at line 225
- *6/8/20 in myConfigSKR_PRO  changed myE3_DIR_PIN  and myE3_STEP_PIN since no motor response on 12 (also no volatge on Ref resistor on stepper controler
-            undefined so free up dames on M43 report
+ *6/8/20 in myConfigSKR_PRO  changed myE3_DIR_PIN  and myE3_STEP_PIN since no motor response on 12 
+ * (also no volatge on Ref resistor on stepper controler
+ *  undefined so free up names on M43 report
  * merged config.h COMMON differences in RE-ARM and SKR-PRO 
  * change: INVERT_E0_DIR to false  5/17/2020
  * - Auto  selects extruder/nozzle configuration for single/multi-nozzle @ Line 201 5/15/2020 
@@ -159,7 +164,7 @@
 
 // Generally expected filament diameter (1.75, 2.85, 3.0, ...). Used for Volumetric, Filament Width Sensor, etc.
 #define DEFAULT_NOMINAL_FILAMENT_DIA 1.75 //ppd   
-// Choose the name from boards.h that matches your setup
+// Choose the name from b.h that matches your setup
 #ifndef MOTHERBOARD
   #define MOTHERBOARD BOARD_RAMPS_14_RE_ARM_EFB  //<<<<<<<<<<<<<<<<<<
   //#define MOTHERBOARD BOARD_BTT_SKR_PRO_V1_1
@@ -179,11 +184,11 @@
 //
 //ppd added if for driver selection. select at top under motherboard
 //#define using_TMC2208_STANDALONE     //ppd
-//#define using_TMC2208_UART
+#define using_TMC2208_UART
 //#define using_TMC2209_STANDALONE
 //#define using_TMC2209_UART
 //not coded yet: #define myTMC_DIAG_ENABLE 1  //enables TMC_DEBUG and MONITOR_DRIVER_STATUS M122, M906, M911, M912
-#define using_DRV8825
+//#define using_DRV8825
 
 // @section extruder
 

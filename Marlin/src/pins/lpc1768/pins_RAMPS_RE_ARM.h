@@ -326,41 +326,26 @@ D52     P0_15   //SPI-SCK so may not be useable for other
 /**
 * Software serial
 */
-/**
-* These 2 cannot be used if multi-extruders
-* P2_08 E1-Step
-* P2_13 E1-Dir
-* 
-*  X,Y,E0 Use WEB tested pins 1st because
-* these were reported as working for UART and are interrupt enabled
-*
-* Z axis is not monitored since it is seldom under heavy use
-* so define as TMC2208_STANDALONE
-*
-* E1,E2,E3are NOT interrupt enabled - see if they work!! //ppd06
-*/
+#define X_SERIAL_TX_PIN   myX_SERIAL_PIN
+#define X_SERIAL_RX_PIN   myX_SERIAL_PIN
 
-#define X_SERIAL_TX_PIN   P0_01      //RAMPS_D21_PIN //I2C P1   
-#define X_SERIAL_RX_PIN   P0_01
+#define Y_SERIAL_TX_PIN    myY_SERIAL_PIN
+#define Y_SERIAL_RX_PIN    myY_SERIAL_PIN
 
-#define Y_SERIAL_TX_PIN    P0_00      // RAMPS_D20_PIN  //I2C P2
-#define Y_SERIAL_RX_PIN    P0_00
+#define Z_SERIAL_TX_PIN    myZ_SERIAL_PIN
+#define Z_SERIAL_RX_PIN    myZ_SERIAL_PIN
 
-//no Z axis pin. Define as TMC220x_STANDALONE in config.h
-#define Z_SERIAL_TX_PIN    -1  //ppdUART
-#define Z_SERIAL_RX_PIN    -1
+#define E0_SERIAL_TX_PIN   myE0_SERIAL_PIN
+#define E0_SERIAL_RX_PIN   myE0_SERIAL_PIN
 
-#define E0_SERIAL_TX_PIN   P2_06       //RAMPS_D59_PIN //AUX-2 P8
-#define E0_SERIAL_RX_PIN   P2_06
+#define E1_SERIAL_TX_PIN    myE1_SERIAL_PIN
+#define E1_SERIAL_RX_PIN    myE1_SERIAL_PIN
 
-#define E1_SERIAL_TX_PIN    P0_26       //RAMPS_D63_PIN //AUX-2 P7
-#define E1_SERIAL_RX_PIN    P0_26
+#define E2_SERIAL_TX_PIN    myE2_SERIAL_PIN
+#define E2_SERIAL_RX_PIN    myE2_SERIAL_PIN
 
-#define E2_SERIAL_TX_PIN    RAMPS_D74_PIN //J12  //ppdUART
-#define E2_SERIAL_RX_PIN    RAMPS_D74_PIN
-
-#define E3_SERIAL_TX_PIN    RAMPS_D78_PIN //J12 //ppdUART
-#define E3_SERIAL_RX_PIN    RAMPS_D78_PIN
+#define E3_SERIAL_TX_PIN    myE3_SERIAL_PIN
+#define E3_SERIAL_RX_PIN    myE3_SERIAL_PIN
 
   // Reduce baud rate to improve software serial reliability
   #define TMC_BAUD_RATE                    19200
