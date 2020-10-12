@@ -67,14 +67,6 @@
 #define myE3_STEP_PIN   EXT_1_4_PIN
 #define myE3_DIR_PIN    EXT_1_7_PIN
 #define myE3_ENABLE_PIN EXT_1_8_PIN 
-//5th extruder Motor
-#define myE4_STEP_PIN   NO_EXT_PIN
-#define myE4_DIR_PIN    NO_EXT_PIN             
-#define myE4_ENABLE_PIN NO_EXT_PIN
-//6th extruder Motor
-#define myE5_STEP_PIN   NO_EXT_PIN
-#define myE5_DIR_PIN    NO_EXT_PIN             
-#define myE5_ENABLE_PIN NO_EXT_PIN
 
 /**  
  For multiple extruders define the heater pins
@@ -89,9 +81,7 @@
 //#define myHEATER_1_PIN     // 1. Enabel & Aassign for EFB & EFF as a 2nd heater. 2. Enable & Aassign to override EEF and EEB 2nd heater. 3. leave commented out  for default EEF and EEB
 //#define myHEATER_2_PIN NO_HEATER_PIN                  //n/a for SKR PRO              
 #define myHEATER_3_PIN EXT_1_9_PIN
-#define myHEATER_4_PIN NO_HEATER_PIN
-#define myHEATER_5_PIN NO_HEATER_PIN
-#define myHEATER_6_PIN NO_HEATER_PIN                              
+#define myHEATER_4_PIN EXT_1_10_PIN                      
 
 //
 // Hotend Temperature sensor pin assignments
@@ -133,7 +123,6 @@ TEMP_0_PIN, TEMP_1_PIN and TEMP_2_PIN are defined by default
 //#define myTEMP_SENSOR_1_PIN   NO_TEMP_SENSOR	//numbers match EXTRUDERS starting w/ zero
 //#define myTEMP_SENSOR_2_PIN   NO_TEMP_SENSOR                                               
 #define myTEMP_SENSOR_3_PIN   EXT_1_5_A23_PIN   //**MUST BE ADC enabled pin
-#define myTEMP_SENSOR_4_PIN   NO_TEMP_SENSOR  //**MUST BE ADC enabled pin
 
 //FAN_PIN (Parts fan) is defined as FAN0.  default: PC8 
 //Extruder cooling fans (actually HOTENDS not EXTRUDERS)
@@ -154,9 +143,6 @@ TEMP_0_PIN, TEMP_1_PIN and TEMP_2_PIN are defined by default
 #define myE1_AUTO_FAN_PIN   EXT_1_13_PIN //PWM/SERVO Pin
 #define myE2_AUTO_FAN_PIN   EXT_1_6_PIN //PWM/SERVO Pin
 #define myE3_AUTO_FAN_PIN   EXT_1_3_PIN //PWM/SERVO Pin
-#define myE4_AUTO_FAN_PIN   NO_E_PIN //PWM/SERVO Pin
-#define myE5_AUTO_FAN_PIN   NO_E_PIN //PWM/SERVO Pin
-#define myE6_AUTO_FAN_PIN   NO_E_PIN //PWM/SERVO Pin
 
 /**
  * Controller Fan

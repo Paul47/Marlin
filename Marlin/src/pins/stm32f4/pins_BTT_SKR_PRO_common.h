@@ -189,12 +189,12 @@ Available pins will depend on what features you have enabled, like WIFI, BLTounc
  * To continue using phydical limit switches, comment out these defines as appropriate
  * OR cut the DIAG pins on the stepper driver
  */
-#define X_DIAG_PIN                          X_MINUS_BRD_PIN  // X-
-#define Y_DIAG_PIN                          Y_MINUS_BRD_PIN  // Y-
-#define Z_DIAG_PIN                          Z_MINUS_BRD_PIN  // Z-
-#define E0_DIAG_PIN                         E0_DIAG BRD_PIN  // E0
-#define E1_DIAG_PIN                         E1_DIAG_BRD_PIN  // E1
-#define E2_DIAG_PIN                         E2_DIAG_BRD_PIN  // E2
+//#define X_DIAG_PIN                          X_MINUS_BRD_PIN  // X-
+//#define Y_DIAG_PIN                          Y_MINUS_BRD_PIN  // Y-
+//#define Z_DIAG_PIN                          Z_MINUS_BRD_PIN  // Z-
+//#define E0_DIAG_PIN                         E0_DIAG BRD_PIN  // E0
+//#define E1_DIAG_PIN                         E1_DIAG_BRD_PIN  // E1
+//#define E2_DIAG_PIN                         E2_DIAG_BRD_PIN  // E2
 
 //
 // Limit Switches
@@ -246,7 +246,7 @@ Available pins will depend on what features you have enabled, like WIFI, BLTounc
 // Filament Runout Sensor
 //
 #ifndef FIL_RUNOUT_PIN
-  #define FIL_RUNOUT_PIN                    E0_DIAG BRD_PIN
+  #define FIL_RUNOUT_PIN                    E0_DIAG_BRD_PIN
 #endif
 #ifndef FIL_RUNOUT2_PIN
   #define FIL_RUNOUT2_PIN                    E1_DIAG_BRD_PIN
@@ -312,15 +312,6 @@ So external stepper chips lke TMC2130 cannot use the SPI feature.
 #define E3_STEP_PIN     myE3_STEP_PIN
 #define E3_DIR_PIN      myE3_DIR_PIN
 #define E3_ENABLE_PIN   myE3_ENABLE_PIN   //EXTENSION-1, USae one enable for extension board's multiple steppers
-
-#define E4_STEP_PIN     myE4_STEP_PIN
-#define E4_DIR_PIN      myE4_DIR_PIN
-#define E4_ENABLE_PIN   myE4_ENABLE_PIN
-
-#define E5_STEP_PIN     myE5_STEP_PIN
-#define E5_DIR_PIN      myE5_DIR_PIN
-#define E5_ENABLE_PIN   myE5_ENABLE_PIN
-
 //
 // Temperature Sensors
 //
@@ -341,18 +332,14 @@ So external stepper chips lke TMC2130 cannot use the SPI feature.
 #define HEATER_0_PIN       PB1  // Heater0
 #define HEATER_1_PIN       PD14 // Heater1
 #define HEATER_2_PIN       PB0  // Heater2
-#define HEATER_3_PIN    myHEATER_3_PIN  //MUST use external MOSFET board to drive these heaters
+#define HEATER_3_PIN    myHEATER_3_PIN
 #define HEATER_4_PIN    myHEATER_4_PIN
-#define HEATER_5_PIN    myHEATER_5_PIN
 
 #define HEATER_BED_PIN     PD12 // Hotbed
 #define FAN_PIN            PC8  // Fan0
 #define FAN1_PIN           PE5  // Fan1
 #define FAN2_PIN           PE6  // Fan2
 #define FAN3_PIN        myE3_AUTO_FAN_PIN   
-#define FAN4_PIN        myE4_AUTO_FAN_PIN   
-#define FAN5_PIN        myE5_AUTO_FAN_PIN   
-#define FAN6_PIN        myE6_AUTO_FAN_PIN	
 
 #ifndef E0_AUTO_FAN_PIN
   #define E0_AUTO_FAN_PIN               FAN1_PIN
@@ -389,8 +376,7 @@ So external stepper chips lke TMC2130 cannot use the SPI feature.
   //#define E1_HARDWARE_SERIAL Serial1
   //#define E2_HARDWARE_SERIAL Serial1
   //#define E3_HARDWARE_SERIAL Serial1
-  //#define E4_HARDWARE_SERIAL Serial1
-
+ 
   //
   // Software serial
   //
