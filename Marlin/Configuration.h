@@ -37,8 +37,9 @@
  * M302 Sxxx sets the min-tempeture, S0 = 0 degrees
  *
  * Configuration.h
- 8/23/20 UPDATED TO MARLIN 2.0.6
- 8/23/20 removed "myConfig_RE_ARM_RAMPSXB.h"
+ *  enabled S_CURVE_ACCELERATION makes better sharp corners 10/17/2020
+ * 8/23/20 UPDATED TO MARLIN 2.0.6
+ * 8/23/20 removed "myConfig_RE_ARM_RAMPSXB.h"
  * RE_ARM config header file ERROR: NO HEATER_1,2,3 PINS DEFINED - fixed
  * 
  * 6/12/20 Added RAMPSXB configurartion header "myConfig_RE_ARM_RAMPSXB.h"
@@ -54,7 +55,6 @@
  * - DEFAULT_ACCELERATION Set back to Marlin defaults 5/3/2020.  3 from ANET 400, 1000, 400 
  * -  DEFAULT_MAX_ACCELERATION Set back to Marlin defaults 5/3/2020 from ANET 1000, 1000, 100, 5000 
  * - JUNCTION_DEVIATION versus "classic jerk". M00-M205 5/3/2020
- * - S_CURVE_ACCELERATION makes better sharp corners 5/3/2020
  * - NOT enabled yet: LIN_ADVANCE  allows faster speeds retaining quality (not for TMC2208) 5/3/2020
  * - AUTO_BED_LEVELING_BILINEAR  //enabled 1/3/19 from linear
  *        EXTRAPOLATE_BEYOND_GRID
@@ -943,7 +943,7 @@ UNUSED SENSORS MUST BE DEFINED AS NOT_USED TO AVOID THIS ERROR:
  *
  * See https://github.com/synthetos/TinyG/wiki/Jerk-Controlled-Motion-Explained
  */
-//#define S_CURVE_ACCELERATION	//ppd test to see if enabled works better
+#define S_CURVE_ACCELERATION	//sharper corners?
 
 //===========================================================================
 //============================= Z Probe Options =============================
@@ -1208,21 +1208,18 @@ UNUSED SENSORS MUST BE DEFINED AS NOT_USED TO AVOID THIS ERROR:
 // @section machine
 
 // Invert the stepper direction. Change (or reverse the motor connector) if an axis goes the wrong way.
-#define INVERT_X_DIR true  //ppd
-#define INVERT_Y_DIR true
-#define INVERT_Z_DIR false
+#define INVERT_X_DIR false  //ppd
+#define INVERT_Y_DIR false
+#define INVERT_Z_DIR true
 
 // @section extruder
 
 // For direct drive extruder v9 set to true, for geared extruder set to false.
-#define INVERT_E0_DIR false	//ppd
+#define INVERT_E0_DIR true	//ppd
 #define INVERT_E1_DIR false
 #define INVERT_E2_DIR false
 #define INVERT_E3_DIR false
-#define INVERT_E4_DIR false
-#define INVERT_E5_DIR false
-#define INVERT_E6_DIR false
-#define INVERT_E7_DIR false
+
 
 // @section homing
 
