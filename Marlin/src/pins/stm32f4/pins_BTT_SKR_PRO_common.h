@@ -15,7 +15,7 @@
  * Pins can be multiply defined, essentially having several names for the same pin.
  * Here many of the pins are defined to be identified more easily by location or function.
  * Example by location: EXT_1_3_PIN	makes more sense than PF8 to locate the pin on Extensio-1 pin 3.
- * Example by function: E0_DIAG BRD_PIN for PE15 to define extruder X maximum endstop.
+ * Example by function: E0_DIAG_PIN for PE15 to define extruder X maximum endstop.
  * Redefines for I2C, UART, BLT, etc. are included.
  * 
  * Analog pins are defined: 
@@ -173,12 +173,9 @@ Available pins will depend on what features you have enabled, like WIFI, BLTounc
  * Endstops/diagnostic/filament runout pins
  * For clarity, identify these pins by their physical names on the board
  */
-#define X_MINUS_BRD_PIN               PB10  //X- board physical pin
-#define Y_MINUS_BRD_PIN               PE12  //Y- board physical pin
-#define Z_MINUS_BRD_PIN               PG8   //Z- board physical pin
-#define E0_DIAG BRD_PIN               PE15  //E0 board physical pin
-#define E1_DIAG_BRD_PIN               PE10  //E1 board physical pin
-#define E2_DIAG_BRD_PIN               PG5   //E2 board physical pin
+#define X_MINUS_PIN               PB10  //X- board physical pin
+#define Y_MINUS_PIN               PE12  //Y- board physical pin
+#define Z_MINUS_PIN               PG8   //Z- board physical pin
 
 //
 // Trinamic Stallguard pins section
@@ -189,50 +186,50 @@ Available pins will depend on what features you have enabled, like WIFI, BLTounc
  * To continue using phydical limit switches, comment out these defines as appropriate
  * OR cut the DIAG pins on the stepper driver
  */
-//#define X_DIAG_PIN                          X_MINUS_BRD_PIN  // X-
-//#define Y_DIAG_PIN                          Y_MINUS_BRD_PIN  // Y-
-//#define Z_DIAG_PIN                          Z_MINUS_BRD_PIN  // Z-
-//#define E0_DIAG_PIN                         E0_DIAG BRD_PIN  // E0
-//#define E1_DIAG_PIN                         E1_DIAG_BRD_PIN  // E1
-//#define E2_DIAG_PIN                         E2_DIAG_BRD_PIN  // E2
+#define X_DIAG_PIN                          X_MINUS_PIN  // X-
+#define Y_DIAG_PIN                          Y_MINUS_PIN  // Y-
+#define Z_DIAG_PIN                          Z_MINUS_PIN  // Z-
+#define E0_DIAG_PIN                         PE15  // E0
+#define E1_DIAG_PIN                         PE10  // E1
+#define E2_DIAG_PIN                         PG5  // E2
 
 //
 // Limit Switches
 //
 #ifdef X_STALL_SENSITIVITY
-  #define X_STOP_PIN                        X_MINUS_BRD_PIN
+  #define X_STOP_PIN                        X_MINUS_PIN
   #if X_HOME_DIR < 0
-    #define X_MAX_PIN                       E0_DIAG BRD_PIN  // E0
+    #define X_MAX_PIN                       E0_DIAG_PIN  // E0
   #else
-    #define X_MIN_PIN                       E0_DIAG BRD_PIN  // E0
+    #define X_MIN_PIN                       E0_DIAG_PIN  // E0
   #endif
 #else
-  #define X_MIN_PIN                         X_MINUS_BRD_PIN  // X-
-  #define X_MAX_PIN                         E0_DIAG BRD_PIN  // E0
+  #define X_MIN_PIN                         X_MINUS_PIN  // X-
+  #define X_MAX_PIN                         E0_DIAG_PIN  // E0
 #endif
 
 #ifdef Y_STALL_SENSITIVITY
-  #define Y_STOP_PIN                        Y_MINUS_BRD_PIN
+  #define Y_STOP_PIN                        Y_MINUS_PIN
   #if Y_HOME_DIR < 0
-    #define Y_MAX_PIN                        E1_DIAG_BRD_PIN  // E1
+    #define Y_MAX_PIN                        E1_DIAG_PIN  // E1
   #else
-    #define Y_MIN_PIN                        E1_DIAG_BRD_PIN  // E1
+    #define Y_MIN_PIN                        E1_DIAG_PIN  // E1
   #endif
 #else
-  #define Y_MIN_PIN                          Y_MINUS_BRD_PIN  // Y-
-  #define Y_MAX_PIN                          E1_DIAG_BRD_PIN  // E1
+  #define Y_MIN_PIN                          Y_MINUS_PIN  // Y-
+  #define Y_MAX_PIN                          E1_DIAG_PIN  // E1
 #endif
 
 #ifdef Z_STALL_SENSITIVITY
-  #define Z_STOP_PIN                        Z_MINUS_BRD_PIN
+  #define Z_STOP_PIN                        Z_MINUS_PIN
   #if Z_HOME_DIR < 0
-    #define Z_MAX_PIN                       E2_DIAG_BRD_PIN    // E2
+    #define Z_MAX_PIN                       E2_DIAG_PIN    // E2
   #else
-    #define Z_MIN_PIN                       E2_DIAG_BRD_PIN    // E2
+    #define Z_MIN_PIN                       E2_DIAG_PIN    // E2
   #endif
 #else
-  #define Z_MIN_PIN                         Z_MINUS_BRD_PIN    // Z-
-  #define Z_MAX_PIN                         E2_DIAG_BRD_PIN    // E2
+  #define Z_MIN_PIN                         Z_MINUS_PIN    // Z-
+  #define Z_MAX_PIN                         E2_DIAG_PIN    // E2
 #endif
 
 //
@@ -246,13 +243,13 @@ Available pins will depend on what features you have enabled, like WIFI, BLTounc
 // Filament Runout Sensor
 //
 #ifndef FIL_RUNOUT_PIN
-  #define FIL_RUNOUT_PIN                    E0_DIAG_BRD_PIN
+  #define FIL_RUNOUT_PIN                    E0_DIAG_PIN
 #endif
 #ifndef FIL_RUNOUT2_PIN
-  #define FIL_RUNOUT2_PIN                    E1_DIAG_BRD_PIN
+  #define FIL_RUNOUT2_PIN                    E1_DIAG_PIN
 #endif
 #ifndef FIL_RUNOUT3_PIN
-  #define FIL_RUNOUT3_PIN                   E2_DIAG_BRD_PIN 
+  #define FIL_RUNOUT3_PIN                   E2_DIAG_PIN 
 #endif
 
 //
@@ -366,7 +363,7 @@ So external stepper chips lke TMC2130 cannot use the SPI feature.
    * Hardware serial communication ports.
    * If undefined software serial is used according to the pins below
    */
-  //#define X_HARDWARE_SERIAL  Serial
+  //#define X_HARDWARE_SERIAL  Serial1
   //#define X2_HARDWARE_SERIAL Serial1
   //#define Y_HARDWARE_SERIAL  Serial1
   //#define Y2_HARDWARE_SERIAL Serial1
