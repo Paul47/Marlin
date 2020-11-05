@@ -43,7 +43,6 @@ Defined RAMPS pins in Dxx format that can be available for other uses like fans,
  *  RAMPS_14_EFF (Hotend, Fan0, Fan1)
  *  RAMPS_14_EEF (Hotend0, Hotend1, Fan)
  *  RAMPS_14_SF  (Spindle, Controller Fan)
- *
  */
 
 // Numbers in parentheses () are the corresponding mega2560 pin numbers
@@ -300,7 +299,7 @@ D52     P0_15   //SPI-SCK so may not be useable for other
     #endif    
 #endif
 
-//  	
+//
 // Software SPI pins for TMC2130 stepper drivers
 //
 #if ENABLED(TMC_USE_SW_SPI)
@@ -623,11 +622,11 @@ OR they can be paired i(in parallel) with other heater pins
     #define BEEPER_PIN                     P1_01
     #define BTN_ENC                        P1_04
   #else
-   #define BEEPER_PIN                     P1_30  // (37) AUX4-9 not 5V tolerant
-   #define BTN_ENC                        P2_11  // (35) AUX4-10
+    #define BEEPER_PIN                     P1_30  // (37) AUX4-9 not 5V tolerant
+    #define BTN_ENC                        P2_11  // (35) AUX4-10
   #endif
 
-  #define BTN_EN1                          P3_26  // (31) J3-2 & AUX-4 
+  #define BTN_EN1                          P3_26  // (31) J3-2 & AUX-4
   #define BTN_EN2                          P3_25  // (33) J3-4 & AUX-4
 
   #define SD_DETECT_PIN                    P1_31  // (49) J3-1 & AUX-3 (NOT 5V tolerant)
@@ -656,8 +655,9 @@ OR they can be paired i(in parallel) with other heater pins
     #define DOGLCD_SCK                   SCK_PIN
     #define DOGLCD_MOSI                 MOSI_PIN
 
-    #define STAT_LED_BLUE_PIN              P0_26  //(63)  may change if cable changes
+    #define STAT_LED_BLUE_PIN              P0_26  // (63)  may change if cable changes
     #define STAT_LED_RED_PIN               P1_21  // ( 6)  may change if cable changes
+
   #else
 
     #if ENABLED(FYSETC_MINI_12864)

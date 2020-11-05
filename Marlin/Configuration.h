@@ -37,7 +37,8 @@
  * M302 Sxxx sets the min-tempeture, S0 = 0 degrees
  *
  * Configuration.h
- *  enabled S_CURVE_ACCELERATION makes better sharp corners 10/17/2020
+ * 11/1/2020 enabled DISTINCT_E_FACTORS so can set each E stepper separately
+ * 11/1/2020disabled S_CURVE_ACCELERATION makes better sharp corners 
  * 8/23/20 UPDATED TO MARLIN 2.0.6
  * 8/23/20 removed "myConfig_RE_ARM_RAMPSXB.h"
  * RE_ARM config header file ERROR: NO HEATER_1,2,3 PINS DEFINED - fixed
@@ -63,6 +64,14 @@
 * -  PSU control enabled
 * - Z_SAFE_HOMING
 
+ * Basic settings such as:
+ * - Type of electronics
+ * - Type of temperature sensor
+ * - Printer geometry
+ * - Endstop configuration
+ * - LCD controller
+ * - Extra features
+ 
 ****Configuration_adv.h*****
 * - enabled M122 reporting with #define TMC_DEBUG see config_adv.h 5/15/20
 * - G29_RETRY_AND_RECOVER      
@@ -70,7 +79,6 @@
                 config_adv.h //#define PINS_DEBUGGING     
  *
  * Advanced settings can be found in Configuration_adv.h
- *
  */
 #define CONFIGURATION_H_VERSION 020006
 
@@ -166,8 +174,8 @@
 #define DEFAULT_NOMINAL_FILAMENT_DIA 1.75 //ppd   
 // Choose the name from b.h that matches your setup
 #ifndef MOTHERBOARD
-  #define MOTHERBOARD BOARD_RAMPS_14_RE_ARM_EFB  //<<<<<<<<<<<<<<<<<<
-  //#define MOTHERBOARD BOARD_BTT_SKR_PRO_V1_1
+  //#define MOTHERBOARD BOARD_RAMPS_14_RE_ARM_EFB  //<<<<<<<<<<<<<<<<<<
+  #define MOTHERBOARD BOARD_BTT_SKR_PRO_V1_1
   //#define MOTHERBOARD BOARD_RAMPS_14_EFB
 #endif
 
@@ -193,7 +201,7 @@
 // @section extruder
 
 // This defines the number of extruders
-// :[1, 2, 3, 4, 5, 6, 7, 8]
+// :[0, 1, 2, 3, 4, 5, 6, 7, 8]
 #define EXTRUDERS 4           //ppd
 #define NUM_VIRTUAL_HOTENDS   4   //ppd
 //NVH set to number of heaters/thermistors. 
@@ -250,7 +258,6 @@ NOTE temp sensors require being matched to the number of HOTENDS if hotends < ex
  * This option only allows the multiplexer to switch on tool-change.
  * Additional options to configure custom E moves are pending.
  */
-
 //#define MK2_MULTIPLEXER
 #if ENABLED(MK2_MULTIPLEXER)
   // Override the default DIO selector pins here, if needed.
@@ -431,11 +438,12 @@ NOTE temp sensors require being matched to the number of HOTENDS if hotends < ex
   #endif
 #endif
 
-// @section temperature
+
 
 //===========================================================================
 //============================= Thermal Settings ============================
 //===========================================================================
+// @section temperature
 
 /**
  * --NORMAL IS 4.7kohm PULLUP!-- 1kohm pullup can be used on hotend sensor, using correct resistor and table
@@ -652,9 +660,9 @@ UNUSED SENSORS MUST BE DEFINED AS NOT_USED TO AVOID THIS ERROR:
   //#define MIN_BED_POWER 0
   //#define PID_BED_DEBUG // Sends debug data to the serial port.
 
-  //120V 250W silicone heater into 4mm borosilicate (MendelMax 1.5+)
-  //from FOPDT model - kp=.39 Tp=405 Tdead=66, Tc set to 79.2, aggressive factor of .15 (vs .1, 1, 10)
-  #define DEFAULT_bedKp 10.00
+   // 120V 250W silicone heater into 4mm borosilicate (MendelMax 1.5+)
+  // from FOPDT model - kp=.39 Tp=405 Tdead=66, Tc set to 79.2, aggressive factor of .15 (vs .1, 1, 10)
+   #define DEFAULT_bedKp 10.00
   #define DEFAULT_bedKi .023
   #define DEFAULT_bedKd 305.4
 
@@ -721,7 +729,7 @@ UNUSED SENSORS MUST BE DEFINED AS NOT_USED TO AVOID THIS ERROR:
 
 // @section machine
 
-// Uncomment one of these options to enable CoreXY, CoreXZ, or CoreYZ kinematics
+// Enable one of the options below for CoreXY, CoreXZ, or CoreYZ kinematics,
 // either in the usual order or reversed
 //#define COREXY
 //#define COREXZ
@@ -851,15 +859,18 @@ UNUSED SENSORS MUST BE DEFINED AS NOT_USED TO AVOID THIS ERROR:
  * With this option each E stepper can have its own factors for the
  * following movement settings. If fewer factors are given than the
  * total number of extruders, the last value applies to the rest.
+ * 
+ * The Prusa Calculator https://blog.prusaprinters.org/calculator_3416/ is a great tool 
+ * to help find the right values for your specific printer configuration.
  */
-//#define DISTINCT_E_FACTORS
+#define DISTINCT_E_FACTORS    //ppd enabled 11/1/2020
 
 /**
  * Default Axis Steps Per Unit (steps/mm)
  * Override with M92
  *                                      X, Y, Z, E0 [, E1[, E2...]]
  */
-#define DEFAULT_AXIS_STEPS_PER_UNIT   {100,  100, 400, 95}  //ppd   
+#define DEFAULT_AXIS_STEPS_PER_UNIT   {100,  100, 400, 95, 95, 95, 95}  //ppd   
 
 /**
  * Default Max Feed Rate (mm/s)
@@ -879,7 +890,7 @@ UNUSED SENSORS MUST BE DEFINED AS NOT_USED TO AVOID THIS ERROR:
  * Override with M201
  *                                      X, Y, Z, E0 [, E1[, E2...]]
  */
-#define DEFAULT_MAX_ACCELERATION      { 3000, 3000, 100, 10000 }
+#define DEFAULT_MAX_ACCELERATION      { 3000, 3000, 100, 10000, 10000, 10000, 10000 }
 
 //#define LIMITED_MAX_ACCEL_EDITING     // Limit edit via M201 or LCD to DEFAULT_MAX_ACCELERATION * 2
 #if ENABLED(LIMITED_MAX_ACCEL_EDITING)
@@ -943,7 +954,7 @@ UNUSED SENSORS MUST BE DEFINED AS NOT_USED TO AVOID THIS ERROR:
  *
  * See https://github.com/synthetos/TinyG/wiki/Jerk-Controlled-Motion-Explained
  */
-#define S_CURVE_ACCELERATION	//sharper corners?
+//#define S_CURVE_ACCELERATION	//sharper corners?  //ppd disabled 11/1/2020
 
 //===========================================================================
 //============================= Z Probe Options =============================
@@ -978,7 +989,6 @@ UNUSED SENSORS MUST BE DEFINED AS NOT_USED TO AVOID THIS ERROR:
  *    - For simple switches connect...
  *      - normally-closed switches to GND and D32.
  *      - normally-open switches to 5V and D32.
- *
  */
 //#define Z_MIN_PROBE_PIN 32 // Pin 32 is the RAMPS default
 
@@ -1219,7 +1229,10 @@ UNUSED SENSORS MUST BE DEFINED AS NOT_USED TO AVOID THIS ERROR:
 #define INVERT_E1_DIR false
 #define INVERT_E2_DIR false
 #define INVERT_E3_DIR false
-
+#define INVERT_E4_DIR false
+#define INVERT_E5_DIR false
+#define INVERT_E6_DIR false
+#define INVERT_E7_DIR false
 
 // @section homing
 
@@ -1691,7 +1704,6 @@ UNUSED SENSORS MUST BE DEFINED AS NOT_USED TO AVOID THIS ERROR:
  *
  *   Caveats: The ending Z should be the same as starting Z.
  * Attention: EXPERIMENTAL. G-code arguments may change.
- *
  */
 //#define NOZZLE_CLEAN_FEATURE
 
@@ -1844,7 +1856,6 @@ UNUSED SENSORS MUST BE DEFINED AS NOT_USED TO AVOID THIS ERROR:
  *
  * SD Card support is disabled by default. If your controller has an SD slot,
  * you must uncomment the following option or it won't work.
- *
  */
 //#define SDSUPPORT
 
@@ -2456,7 +2467,6 @@ UNUSED SENSORS MUST BE DEFINED AS NOT_USED TO AVOID THIS ERROR:
  * *** CAUTION ***
  *
  * LED Type. Enable only one of the following two options.
- *
  */
 //#define RGB_LED
 //#define RGBW_LED

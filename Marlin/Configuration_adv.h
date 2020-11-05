@@ -33,11 +33,10 @@
  */
 #define CONFIGURATION_ADV_H_VERSION 020006
 
-// @section temperature
-
 //===========================================================================
 //============================= Thermal Settings ============================
 //===========================================================================
+// @section temperature
 
 /**
  * Thermocouple sensors are quite sensitive to noise.  Any noise induced in
@@ -126,9 +125,9 @@
   #define HEATER_BED_INVERTING true
 #endif
 
-/**
- * Heated Chamber settings
- */
+//
+// Heated Chamber options
+//
 #if TEMP_SENSOR_CHAMBER
   #define CHAMBER_MINTEMP             5
   #define CHAMBER_MAXTEMP            60
@@ -757,7 +756,6 @@
    *               | 4   3 | 1   4 | 2   1 | 3   2 |
    *               |       |       |       |       |
    *               | 1   2 | 2   3 | 3   4 | 4   1 |
-   *
    */
   #ifndef Z_STEPPER_ALIGN_XY
     //#define Z_STEPPERS_ORIENTATION 0
@@ -805,6 +803,8 @@
   // Enable to restore leveling setup after operation
   #define RESTORE_LEVELING_AFTER_G35
 
+  // Add a menu item for Assisted Tramming
+  //#define ASSISTED_TRAMMING_MENU_ITEM
   /**
    * Screw thread:
    *   M3: 30 = Clockwise, 31 = Counter-Clockwise
@@ -1126,10 +1126,10 @@
 
 #if HAS_GRAPHICAL_LCD && EITHER(SDSUPPORT, LCD_SET_PROGRESS_MANUALLY)
   //#define PRINT_PROGRESS_SHOW_DECIMALS // Show progress with decimal digits
-  //#define SHOW_REMAINING_TIME          // Display estimated time to completion
+  //#define SHOW_REMAINING_TIME       // Display estimated time to completion
   #if ENABLED(SHOW_REMAINING_TIME)
-    //#define USE_M73_REMAINING_TIME     // Use remaining time from M73 command instead of estimation
-    //#define ROTATE_PROGRESS_DISPLAY    // Display (P)rogress, (E)lapsed, and (R)emaining time
+    //#define USE_M73_REMAINING_TIME  // Use remaining time from M73 command instead of estimation
+    //#define ROTATE_PROGRESS_DISPLAY // Display (P)rogress, (E)lapsed, and (R)emaining time
   #endif
 #endif
 
@@ -2506,7 +2506,7 @@
   #define E7_HYBRID_THRESHOLD     30
 
   /**
-   * Use StallGuard2 to home / probe X, Y, Z.
+   * Use StallGuard to home / probe X, Y, Z.
    *
    * TMC2130, TMC2160, TMC2209, TMC2660, TMC5130, and TMC5160 only
    * Connect the stepper driver's DIAG1 pin to the X/Y endstop pin.
@@ -3484,7 +3484,7 @@
    */
   //#define MMU_EXTRUDER_SENSOR
   #if ENABLED(MMU_EXTRUDER_SENSOR)
-    #define MMU_LOADING_ATTEMPTS_NR 5 //max. number of attempts to load filament if first load fail
+    #define MMU_LOADING_ATTEMPTS_NR 5 // max. number of attempts to load filament if first load fail
   #endif
 
   /**
