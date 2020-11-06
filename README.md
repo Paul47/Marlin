@@ -1,17 +1,19 @@
 ## Marlin 3D Printer Firmware for RAMPSXB expansion boards
 
 This branch of the Marlin 2.0.x github project supports up to 4 extruders and stepper drivers in any combination:
-extruders     Steppers     example
-1             1 to 4       "3 in 1 out", Diamond head, Cyclops
-2             2            "2 in 2 out", Chimera
-3             3            HE3D hotend triple Nozzle
-4             4            E3D Kraken, Chimera 2x
+
+- extruders     Steppers     example
+- 1             1 to 4       "3 in 1 out", Diamond head, Cyclops
+- 2             2            "2 in 2 out", Chimera
+- 3             3            HE3D hotend triple Nozzle
+- 4             4            E3D Kraken, Chimera 2x
 
 # Supported Controllers
 
 Only two printer controllers are currently supportred (and tested):
-    -RE-ARM with RAMPS 1.4 - 1.6
-	-SKR-PRO V1.1 and v1.2
+
+    - RE-ARM with RAMPS 1.4 - 1.6
+	- SKR-PRO V1.1 and v1.2
 
 # Supported Stepper Drivers
 
