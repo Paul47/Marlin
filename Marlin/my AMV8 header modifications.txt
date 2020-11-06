@@ -1,0 +1,91 @@
+Header defines for my AMV8 3D Printer
+11/5/2020
+
+
+=================== Configuration.h ============================
+
+#define SERIAL_PORT -1  //ppd for re-aarm and skr-pro
+#define DEFAULT_NOMINAL_FILAMENT_DIA 1.75 //ppd  
+
+//#define using_TMC2208_STANDALONE     //ppd
+#define using_TMC2208_UART
+//#define using_TMC2209_STANDALONE
+//#define using_TMC2209_UART
+
+#define EXTRUDERS 4           //ppd
+#define NUM_VIRTUAL_HOTENDS   4   //ppd
+
+#define X_MIN_ENDSTOP_INVERTING true // set to true to invert the logic of the endstop.   //ppd
+#define Y_MIN_ENDSTOP_INVERTING true // set to true to invert the logic of the endstop.
+#define Z_MIN_ENDSTOP_INVERTING true // set to true to invert the logic of the endstop.
+#define X_MAX_ENDSTOP_INVERTING false // set to true to invert the logic of the endstop.
+#define Y_MAX_ENDSTOP_INVERTING false // set to true to invert the logic of the endstop.
+#define Z_MAX_ENDSTOP_INVERTING false // set to true to invert the logic of the endstop.
+#define Z_MIN_PROBE_ENDSTOP_INVERTING true // set to true to invert the logic of the probe.
+
+
+#ifdef using_DRV8825			//ppd
+...
+
+#define DISTINCT_E_FACTORS    //ppd enabled 11/1/2020
+
+
+#define DEFAULT_AXIS_STEPS_PER_UNIT   {100,  100, 400, 95, 95, 95, 95}  //ppd  
+
+#define DEFAULT_MAX_FEEDRATE          {400, 400, 8, 50}	//from ANET //ppd
+
+//#define S_CURVE_ACCELERATION	//sharper corners?  //ppd disabled 11/1/2020
+
+#define FIX_MOUNTED_PROBE //ppd
+
+#define NOZZLE_TO_PROBE_OFFSET { -55, 0, 0 }    //ppd new formast, all in one
+
+#define INVERT_X_DIR false  //ppd
+#define INVERT_Y_DIR false
+#define INVERT_Z_DIR true
+
+#define INVERT_E0_DIR true	//ppd
+#define INVERT_E1_DIR false
+#define INVERT_E2_DIR false
+#define INVERT_E3_DIR false
+
+#define X_BED_SIZE 220 //ppd measured glass
+#define Y_BED_SIZE 200
+
+#define AUTO_BED_LEVELING_BILINEAR  //ppd enabled from linear
+
+ #define G26_MESH_VALIDATION       //ppd enabled
+ 
+   #define EXTRAPOLATE_BEYOND_GRID	//ppd enabled
+   
+#define Z_SAFE_HOMING		//ppd enabled
+
+#define EEPROM_SETTINGS     // Persistent storage with M500 and M501    //ppd enabled
+
+//#define HOST_KEEPALIVE_FEATURE        //ppd Disable 
+
+#define REPRAP_DISCOUNT_FULL_GRAPHIC_SMART_CONTROLLER //ppd
+
+
+=================== Configuration_adv.h ============================
+
+#define USE_CONTROLLER_FAN  //ppd 
+
+#define CONTROLLERFAN_SPEED_ACTIVE 130 //ppd 
+  
+  //ppd my changes for configuration.h setting of pins
+  ...
+  
+#define LCD_SET_PROGRESS_MANUALLY  //ppd
+  
+#define G29_RETRY_AND_RECOVER       //ppd 
+
+  #define STEALTHCHOP_XY
+  #define STEALTHCHOP_Z
+  #define STEALTHCHOP_E
+
+#define MONITOR_DRIVER_STATUS  //ppd
+
+#define TMC_DEBUG		//ppd enable
+
+ 
